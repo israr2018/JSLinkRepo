@@ -15,15 +15,15 @@ SP.SOD.executeFunc("clienttemplates.js", "SPClientTemplates", function() {
 
       Templates: {
             Item: function(ctx) { return "<tr><td>Task Name</td><td>Requestor Name</td><td>EService Type</td><td><a href='http://hraes-uat/sites/eservices/Lists/BonusRequestList/EditForm.aspx?ID=8'>View Details</</td></tr>"; },
-        	Header: function(ctx) { return "<table><th>Task Name</th><th>Requestor Name</th><th>EService</th><th>View Details</th><th>Edit</th>"; },
-
+        	  Header: function(ctx) { return "<table><th>Task Name</th><th>Requestor Name</th><th>EService</th><th>View Details</th><th>Edit</th>"; },
+           // Group: function(ctx) { return "<div>I am Groupd</div>"; },
+            Footer: function(ctx) { return "</table>"; }
       //    View: function(ctx) { return ""; }
       //     Header: function(ctx) { return ""; },
         
       //  Body: function(ctx) { return "<table id='table'><tr><th>Task Name</th><th>Request-ID</th><th>EService Name</th></table>"; },
        //  View: function(ctx) { return ""; },
-          Group: function(ctx) { return "<div>I am Groupd</div>"; },
-      
+          
       //     Fields: {
       //         "<field internal name>": {
                
@@ -32,8 +32,7 @@ SP.SOD.executeFunc("clienttemplates.js", "SPClientTemplates", function() {
       //             NewForm: function(ctx) { return ""; }
       //         }
       //     },
-        Footer: function(ctx) { return "</table>"; }
-
+       
       },
 
       // OnPostRender: function(ctx) { },
@@ -43,7 +42,7 @@ SP.SOD.executeFunc("clienttemplates.js", "SPClientTemplates", function() {
     });
   }
 
-  //RegisterModuleInit(SPClientTemplates.Utility.ReplaceUrlTokens("~siteCollection/Style Library/JSLinkLibrary.js"), init);
+  RegisterModuleInit(SPClientTemplates.Utility.ReplaceUrlTokens("~siteCollection/Style Library/BonueRequestTask-Display.js"), init);
   init();
 
 });
