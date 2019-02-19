@@ -1,0 +1,2528 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="http://hraes-uat/sites/eservices/SiteAssets/DONOTDELETE/CSS/styleguideforsciforem.css">
+<!--<link rel="stylesheet" type="text/css" href="http://hraes-uat/sites/eservices/SiteAssets/styleguideforsciforem.css">-->
+
+<script src="http://hraes-uat/sites/eservices/SiteAssets/DONOTDELETE/Js/jquery-1.12.4.min.js"></script>
+<script src="http://hraes-uat/sites/eservices/Style%20Library/CSS/jquery.translate.js"></script>
+<script>
+var Requestorname;
+var RequestStatus="";
+var Requestorjob;
+var RequestID,Outcome="";
+
+var RequestIDwithlink;
+	var issueDate =new Date();
+	var EntityName;
+	var Requestordept;
+	var coordinatorname;
+	var contactnumber;
+	var budgetvalue;
+	var resonstogivebonuses;
+	var BonusDistributeCriteria;
+	var mobilenum;
+	var BonusDistributeCriteria;
+	var noofempgettingbonusses;
+	var nooflocals;
+	var noofnonlocals;
+	var percentageodEmirization;
+	var percentageofemployeegood=0;
+	var percentageofemployeeexcellence=0;
+	var percentageofemployeeacceptable=0;
+	var percentageofemployeeverygood=0
+	var percentageofempweak=0
+	var percentageofemployeegoody;
+	var percentageofemployeeexcellencey;
+	var percentageofemployeeacceptabley;
+	var percentageofemployeeverygoody;
+	var percentageofempweaky;
+	var PrivateContractEmployeenumber;
+	var emailid;
+	var noofemplocpricontract;
+	var noofemplocpercontract;
+	var noofempnonlocpricontract;
+	var noofempnonlocpercontract;
+	var budgetdocyesnoval="";
+	var PrivateContractyesnoval="";
+	var entityattachmentsforyearval;
+	var achivementsval;
+	var year1;
+	var year2;
+	var TotalIncome2ndYearval,TotalIncomeIstYearval,evaluationtotalval;
+	var appWebUrl, hostWebUrl; 
+	var fileinput;
+	var validationflag=0;
+	var errorval="";
+var attachmentFiles,element,elementlogo,elementbalancescorecard,elementfinancialstatement,elementtaxsummary,elementbudget,elementevaluation,elementcontrats,elementempdetails,elementstudydetails;
+var oldornew=0;
+var reqid;
+var entitylogofiles,gsfiles,budgetfilenames,balancenames,financialnames,taxnames,contractnames,evaluationnames,empdetailfiles,studyfiles;
+var idofitem;
+var entitylogofiles1,gradensaleriesfilenames,budegetfilenames,balancefilenames,financialfilenames,taxfilenames, evaluationfilenames,allcontractsfilenames;
+	var languageis;
+	var taskid;
+$(document).ready(function(){
+	getusername();
+	getemail();
+	$("#achivementsid").val("");
+	$('#reasontopayid').val("");
+		$('#reasontopayid').trigger("click");
+		$('#achivementsid').trigger("click");
+	
+	var url      = window.location.href;
+	//alert(url);
+	if(url.indexOf('?') != -1){
+		var x=url.split('?')[1];
+		var z=x.split('&')[0];
+		taskid=z.split('=')[1];
+		
+		
+		if(taskid==undefined){
+			reqid=url.split('?')[1];
+	getdata(reqid);
+		}
+		else{
+			var y=x.split('&')[1];
+		var id=y.split('=')[1];
+		getreqid(id);
+		}
+     //reqid=url.split('?')[1];
+	 //gerreqid();
+	//getdata(reqid);	
+	oldornew=1;
+	}
+	if(oldornew==0){
+		var day= issueDate.getDate()
+	var currentyear=issueDate.getFullYear()
+	var month=issueDate.getUTCMonth();
+	month=month+1;
+	var hours=issueDate.getHours();
+	var minutes=issueDate.getMinutes();
+	var seconds=issueDate.getSeconds();
+	if(day<10){
+		day='0'+day;
+	}
+	if(month<10){
+		month='0'+month;
+	}
+	if(hours<10){
+		hours='0'+hours;
+	}
+	if(minutes<10){
+		minutes='0'+minutes;
+	}
+	if(seconds<10){
+		seconds='0'+seconds;
+	}
+	
+	var stamp=day+currentyear+month+hours+minutes+seconds;
+	RequestID=stamp;
+	$("#scgform1").hide();
+$("#scgform2").hide();
+$("#scgform3").hide();
+$("#scgform4").hide();
+$("#scgform5").hide();
+$("#scgform6").hide();
+	}
+	else{
+		RequestID=reqid;
+	}
+$("input[type='number']").on("keypress",function(e){
+//if(!string.fromCharcode(e.keyCode).match(/[^0-9]/g)){
+	//$(this).val()="";
+//}
+//return false;
+if(e.which <48 ||e.which>57){
+	e.preventDefault();
+}
+
+});
+
+//document.getElementsByTagName("input[type='number']").addEventListener("keypress",function(evt){
+
+//if(evt.which<48||evt.which >57){
+//evt.preventDefault();
+//}
+//});
+	 
+//$("#scgform1").hide();
+//$("#scgform2").hide();
+//$("#scgform3").hide();
+//$("#scgform4").hide();
+//$("#scgform5").hide();
+//$("#scgform6").hide();
+
+
+$('#Entitynameid').keyup(function(e) {
+        var txtVal = $(this).val();
+        $('#Entitynamereadonlyid').val(txtVal);
+    });
+	$('#coordinatornameid').keyup(function(e) {
+        var txtVal = $(this).val();
+        $('#coordinatornameidreadonly').val(txtVal);
+    });
+$('#Jobnameid').keyup(function(e) {
+        var txtVal = $(this).val();
+        $('#Jobnameidreadonly').val(txtVal);
+    });
+	$('#contactnumberid').keyup(function(e) {
+        var txtVal = $(this).val();
+        $('#contactnumberidreadonly').val(txtVal);
+    });
+$('#emailid').change(function(e) {
+	var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+	 //function IsEmail(email) {
+  //var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  if(!regex.test($(this).val())) {
+	  $(this).val("")
+    return false;
+  }else{
+    var txtVal = $(this).val();
+	 $('#emailidreadonly').val(txtVal);
+  }
+//}
+        //var txtVal = $(this).val();
+		//IsEmail(txtVal);
+        //$('#emailidreadonly').val(txtVal);
+    });
+	
+$('#budgetdocid').keyup(function(e) {
+        var txtVal = $(this).val();
+        $('#budgetdocidreadonly').val(txtVal);
+    });
+
+$('#reasontopayid').keyup(function(e) {
+        var txtVal = $(this).val();
+        $('#reasontopayidreadonly').val(txtVal);
+    });
+	$('#entityattachmentsforyearid').keyup(function(e) {
+        var txtVal = $(this).val();
+        $('#entityattachmentsforyearidreadonly').val(txtVal);
+    });
+	$('#achivementsid').keyup(function(e) {
+        var txtVal = $(this).val();
+        $('#achivementsidreadonly').val(txtVal);
+    });
+
+$('#noofempgettingbonussesid').keyup(function(e) {
+        var txtVal = $(this).val();
+        $('#noofempgettingbonussesidreadonly').val(txtVal);
+    });
+	$('#noofemplocpricontractid').keyup(function(e) {
+        var txtVal = $(this).val();
+        $('#noofemplocpricontractidreadonly').val(txtVal);
+    });
+	$('#noofemplocpercontractid').keyup(function(e) {
+        var txtVal = $(this).val();
+        $('#noofemplocpercontractidreadonly').val(txtVal);
+    });
+	$('#noofempnonlocpricontractid').keyup(function(e) {
+        var txtVal = $(this).val();
+        $('#noofempnonlocpricontractidreadonly').val(txtVal);
+    });
+	$('#noofempnonlocpercontractid').keyup(function(e) {
+        var txtVal = $(this).val();
+        $('#noofempnonlocpercontractidreadonly').val(txtVal);
+    });
+	$('#year1percentageid').keyup(function(e) {
+        var txtVal = $(this).val();
+        $('#year1percentageidreadonly').val(txtVal);
+    });
+	$('#year2percentageid').keyup(function(e) {
+        var txtVal = $(this).val();
+        $('#year2percentageidreadonly').val(txtVal);
+    });
+$('#year1id').keyup(function(e) {
+        var txtVal = $(this).val();
+        $('#year1idreadonly').val(txtVal);
+    });
+	$('#year2id').keyup(function(e) {
+        var txtVal = $(this).val();
+        $('#year2idreadonly').val(txtVal);
+    });
+$('#evaluationtotalid').keyup(function(e) {
+        var txtVal = $(this).val();
+        $('#evaluationtotalidreadonly').val(txtVal);
+    });
+$("#TotalNumberofEmpid").change	(function(e) {
+	$('#excellentyid').val("");
+	$('#excellentidz').val("");
+	$('#verygoodyid').val("");
+	$('#verygoodidz').val("");
+	$('#goodyid').val("");
+	$('#goodidz').val("");
+	$('#acceptableyid').val("");
+	$('#acceptableidz').val("");
+	$('#weakyid').val("");
+	$('#weakidz').val("");
+	
+});
+$('#excellentid').keyup(function(e) {
+        var txtVal = $(this).val();
+        $('#excellentidreadonly').val(txtVal);
+    });
+	$('#excellentyid').keyup(function(e) {
+		var total=$("#TotalNumberofEmpid").val();
+        var txtVal = $(this).val();
+		var percentage=((txtVal/total)*100)
+		$('#excellentidz').val(percentage);
+        $('#excellentyidreadonly').val(percentage);
+    });
+$('#verygoodid').keyup(function(e) {
+       
+        $('#verygoodidreadonly').val(txtVal);
+    });
+	$('#verygoodyid').change(function(e) {
+         var total=$("#TotalNumberofEmpid").val();
+        var txtVal = $(this).val();
+		var percentage=((txtVal/total)*100)
+		$('#verygoodidz').val(percentage);
+        $('#verygoodyidreadonly').val(percentage);
+    });
+$('#goodid').keyup(function(e) {
+        var txtVal = $(this).val();
+        $('#goodidreadonly').val(txtVal);
+    });
+	$('#goodyid').keyup(function(e) {
+        var total=$("#TotalNumberofEmpid").val();
+        var txtVal = $(this).val();
+		var percentage=((txtVal/total)*100)
+		$('#goodidz').val(percentage);
+        $('#goodyidreadonly').val(percentage);
+    });
+$('#acceptableid').keyup(function(e) {
+        var txtVal = $(this).val();
+        $('#acceptableidreadonly').val(txtVal);
+    });
+	$('#acceptableyid').keyup(function(e) {
+         var total=$("#TotalNumberofEmpid").val();
+        var txtVal = $(this).val();
+		var percentage=((txtVal/total)*100)
+		$('#acceptableidz').val(percentage);
+        $('#acceptableyidreadonly').val(percentage);
+    });
+	$('#weakid').keyup(function(e) {
+        var txtVal = $(this).val();
+        $('#weakidreadonly').val(txtVal);
+    });
+
+	$('#weakyid').keyup(function(e) {
+        var total=$("#TotalNumberofEmpid").val();
+        var txtVal = $(this).val();
+		var percentage=((txtVal/total)*100);
+		$('#weakidz').val(percentage);
+        $('#weakyidreadonly').val(percentage);
+    });
+
+
+$("input[type='number']").click(function(e) {
+       $(this).attr('placeholder', '');
+    });
+
+$("textarea").click(function(e) {
+       $(this).attr('placeholder', '');
+    });
+
+
+  $("input[name='yesno']").click(function(){
+        var value=$(this).val();
+if(value=="yes"){
+//$("#budgetdocdivid").show();
+$(".budgetdocdivcls").show();
+}
+else{
+//$("#budgetdocdivid").hide();
+$(".budgetdocdivcls").hide();
+} 
+       
+    }); 
+	 $("input[name='yesno2']").click(function(){
+        var value=$(this).val();
+if(value=="yes"){
+$("#allcontractsid").show();
+}
+else{
+$("#allcontractsid").hide();
+} 
+       
+    }); 
+$("#form0nextid").click(function(){
+$("#scgform1").show();
+$("#scgform0").hide();
+
+return false;
+});
+$("#form1nextid").click(function(){
+$("#scgform2").show();
+$("#scgform1").hide();
+
+return false;
+});
+$("#form1previd").click(function(){
+$("#scgform0").show();
+$("#scgform1").hide();
+return false;
+});
+$("#form2nextid").click(function(){
+$("#scgform3").show();
+$("#scgform2").hide();
+
+return false;
+});
+$("#form2previd").click(function(){
+$("#scgform1").show();
+$("#scgform2").hide();
+return false;
+});
+$("#form3nextid").click(function(){
+$("#scgform4").show();
+$("#scgform3").hide();
+return false;
+});
+$("#form3previd").click(function(){
+$("#scgform2").show();
+$("#scgform3").hide();
+return false;
+});
+$("#form4nextid").click(function(){
+$("#scgform5").show();
+$("#scgform4").hide();
+
+return false;
+});
+$("#form4previd").click(function(){
+$("#scgform3").show();
+$("#scgform4").hide();
+return false;
+});
+$("#form5nextid").click(function(){
+
+entitylogofiles1=document.getElementById('Entitylogofileid');
+gradensaleriesfilenames=document.getElementById('Gradensalaryid');
+budegetfilenames=document.getElementById('budgetdocid');
+balancefilenames=document.getElementById('balancescorecardid');
+financialfilenames=document.getElementById('financialstatementid');
+taxfilenames=document.getElementById('taxsummaryid');
+evaluationfilenames=document.getElementById('resultsofevaluationid');
+
+allcontractsfilenames=document.getElementById('allcontractsid');
+
+var name1="";
+for (var i = 0; i < entitylogofiles1.files.length; ++i) {
+   name1 += entitylogofiles1.files.item(i).name +";";
+  //alert("file name: " + name);
+ 
+}
+ $("#entityfilesidreadonly").append(name1);
+
+var name2="";
+for (var i = 0; i < gradensaleriesfilenames.files.length; ++i) {
+   name2 += gradensaleriesfilenames.files.item(i).name +";";
+  //alert("file name: " + name);
+ 
+}
+ $("#gradeandsalaryfilesreadonly").append(name2);
+var name3="";
+for (var i = 0; i < budegetfilenames.files.length; ++i) {
+   name3 += budegetfilenames.files.item(i).name +";";
+  //alert("file name: " + name);
+ 
+}
+ $("#budgetfilesreadonly").append(name3);
+var name4="";
+for (var i = 0; i < balancefilenames.files.length; ++i) {
+   name4 += balancefilenames.files.item(i).name +";";
+  //alert("file name: " + name);
+ 
+}
+ $("#balancefilesreadonly").append(name4);
+ var name5="";
+for (var i = 0; i < financialfilenames.files.length; ++i) {
+   name5 += financialfilenames.files.item(i).name +";";
+  //alert("file name: " + name);
+ 
+}
+ $("#financialfilesreadonly").append(name5);
+var name6="";
+for (var i = 0; i < taxfilenames.files.length; ++i) {
+   name6 += taxfilenames.files.item(i).name +";";
+  //alert("file name: " + name);
+ 
+}
+ $("#taxsummaryfilesreadonly").append(name6); 
+ var name7="";
+for (var i = 0; i < evaluationfilenames.files.length; ++i) {
+   name7 += evaluationfilenames.files.item(i).name +";";
+  //alert("file name: " + name);
+ 
+}
+ $("#evaluationfilesreadonly").append(name7); 
+var name8="";
+for (var i = 0; i < allcontractsfilenames.files.length; ++i) {
+   name8 += allcontractsfilenames.files.item(i).name +";";
+  //alert("file name: " + name);
+ 
+}
+ $("#allcontractfilesreadonly").append(name8); 
+
+
+
+
+
+$("#scgform5").hide();
+$("#scgform6").show();
+if(RequestStatus==""){
+$("#gmtrid").hide();
+			$("#pnrtrid").hide();
+			$("#cnbtrid").hide();
+			$("#cnbtrid2").hide();
+			$("#pnrtrid2").hide();
+			$("#aatrid").hide();
+			$("#confirmid").show();
+			$("#GMReview").hide();
+			$("#PNRAPPROVEID").hide();
+			$("#PNRrejectid").hide();
+			$("#CNBAPPROVEID").hide();
+			$("#CNGrejectid").hide();
+			$("#PNRReview").hide();
+			$("#aatReview").hide();
+}
+return false;
+});
+$("#Entitylogofileid").change(function(e){
+	var id="applicatorsfilesid";
+	var type="ReviewerFiles";
+	//SP.SOD.executeFunc('sp.js', 'SP.ClientContext', temporaryfilecreation());
+	//SP.SOD.executeFunc('sp.js', 'SP.ClientContext', temporaryfilecreation(id,type));
+	//temporaryfilecreation();
+	let disp = '';
+  for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+
+  disp += '<p>'+e.target.files[i].name+'</p>';
+     
+    }
+  $("#entityfilesid").html(disp);
+});
+$("#Gradensalaryid").change(function(e){
+	var id="applicatorsfilesid";
+	var type="ReviewerFiles";
+	
+	let disp = '';
+  for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+  disp += '<p>'+e.target.files[i].name+'</p>';     
+    }
+  $("#Gradensalaryfilesid").html(disp);
+});
+$("#budgetdocid").change(function(e){
+	var id="applicatorsfilesid";
+	var type="ReviewerFiles";
+	//SP.SOD.executeFunc('sp.js', 'SP.ClientContext', temporaryfilecreation());
+	
+	let disp = '';
+  for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+  disp += '<p>'+e.target.files[i].name+'</p>';     
+    }
+  $("#budgetfilesid").html(disp);
+});
+$("#balancescorecardid").change(function(e){
+	var id="applicatorsfilesid";
+	var type="ReviewerFiles";	
+	let disp = '';
+  for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+  disp += '<p>'+e.target.files[i].name+'</p>';     
+    }
+  $("#balancefilesid").html(disp);
+});
+$("#financialstatementid").change(function(e){
+	var id="applicatorsfilesid";
+	var type="ReviewerFiles";	
+	let disp = '';
+  for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+  disp += '<p>'+e.target.files[i].name+'</p>';     
+    }
+  $("#financefilesid").html(disp);
+});
+$("#taxsummaryid").change(function(e){
+	var id="applicatorsfilesid";
+	var type="ReviewerFiles";	
+	let disp = '';
+  for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+  disp += '<p>'+e.target.files[i].name+'</p>';     
+    }
+  $("#taxfilesid").html(disp);
+});
+$("#resultsofevaluationid").change(function(e){
+	var id="applicatorsfilesid";
+	var type="ReviewerFiles";	
+	let disp = '';
+  for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+  disp += '<p>'+e.target.files[i].name+'</p>';     
+    }
+  $("#evaluationfilesid").html(disp);
+});
+$("#allcontractsid").change(function(e){
+	var id="applicatorsfilesid";
+	var type="ReviewerFiles";	
+	let disp = '';
+  for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+  disp += '<p>'+e.target.files[i].name+'</p>';     
+    }
+  $("#contractfilesid").html(disp);
+});
+
+$("#Employeedetailsid").change(function(e){
+	var id="applicatorsfilesid";
+	var type="ReviewerFiles";	
+	let disp = '';
+  for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+  disp += '<p>'+e.target.files[i].name+'</p>';     
+    }
+  $("#employeefilesid").html(disp);
+});
+
+$("#stydyfileid").change(function(e){
+	var id="applicatorsfilesid";
+	var type="ReviewerFiles";	
+	let disp = '';
+  for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+  disp += '<p>'+e.target.files[i].name+'</p>';     
+    }
+  $("#studyfileslinksid").html(disp);
+});
+$("#reasontopayid").click(function() {
+    if(document.getElementById('reasontopayid').value === ''){
+        document.getElementById('reasontopayid').value +='● ';
+	}
+});
+$("#reasontopayid").keyup(function(event){
+	var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+		//$("#reasontopayid").append(".");
+		//$("#reasontopayid").append("\n");
+		//$("#reasontopayid").append(".");
+		// var txt = 
+    var box = $("#reasontopayid");
+   // box.val(box.val() + "\n");
+        box.val(box.val() + "● ");
+	}
+	
+});
+$("#achivementsid").click(function() {
+    if(document.getElementById('achivementsid').value === ''){
+        document.getElementById('achivementsid').value +='● ';
+	}
+});
+$("#achivementsid").keyup(function(event){
+	var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+		//$("#reasontopayid").append(".");
+		//$("#reasontopayid").append("\n");
+		//$("#reasontopayid").append(".");
+		// var txt = 
+    var box = $("#achivementsid");
+   // box.val(box.val() + "\n");
+        box.val(box.val() + ".");
+	}
+	
+});
+
+
+$("#form5previd").click(function(){
+$("#scgform4").show();
+$("#scgform5").hide();
+return false;
+});
+$("#confirmid").click(function(){
+	$("#errorid").val("");
+	validationflag=0
+	validation();
+	if(validationflag==0 && oldornew==0){
+		RequestStatus="RequestSaved";
+			savedata();
+			// window.location.replace("http://hraes-uat/sites/eservices/Pages/homepage.aspx");
+	}
+	else if(oldornew==1 && validationflag==0){
+		
+		updatedata(reqid);
+		 window.location.replace("http://hraes-uat/sites/eservices/Pages/homepage.aspx");
+	}
+	else {
+		$("#errorid").append(errorval);
+		validationflag=0;
+		//savedata();
+	}
+return false;
+});
+$("#form6previd").click(function(){
+$("#scgform5").show();
+$("#scgform6").hide();
+return false;
+});
+
+
+
+
+
+
+
+
+
+$("#GMReview").click(function(){
+RequestStatus="RequestReviwedbyGMOffice";
+Outcome="Reviewed";
+UpdateTask(Outcome);
+//updatedata(reqid);
+ window.location.replace("http://hraes-uat/sites/eservices/Pages/homepage.aspx");
+});
+$("#PNRAPPROVEID").click(function(){
+RequestStatus="RequestReviwedbyPNR";
+Outcome="Approved";
+UpdateTask(Outcome);
+//updatedata(reqid);
+ window.location.replace("http://hraes-uat/sites/eservices/Pages/homepage.aspx");
+});
+$("#PNRrejectid").click(function(){
+	$("#errorid").val("");
+	if(!$.trim($("#pnrnotesid").val())){
+		errorval+= "Add Notes<br> ";
+		validationflag=1;
+		$("#errorid").append(errorval);
+	}
+	else{
+RequestStatus="RequestReviwedbyPNR";
+Outcome="Rejected";
+UpdateTask(Outcome);
+//updatedata(reqid);
+ window.location.replace("http://hraes-uat/sites/eservices/Pages/homepage.aspx");
+	}
+});
+$("#CNBAPPROVEID").click(function(){
+	$("#errorid").val("");
+	if($("#stydyfileid").val()==""){
+		errorval+= "Add study files<br> ";
+		validationflag=1;
+		$("#errorid").append(errorval);
+	}
+	else{
+RequestStatus="RequestReviwedbyCNB";
+Outcome="Approved";
+//updatedata(reqid);
+SP.SOD.executeFunc('sp.js', 'SP.ClientContext', createFile);
+UpdateTask(Outcome);
+ window.location.replace("http://hraes-uat/sites/eservices/Pages/homepage.aspx");
+
+	}
+});
+$("#CNGrejectid").click(function(){
+	$("#errorid").val("");
+	if(!$.trim($("#cnbnotesid").val())){
+		errorval+= "Add Notes<br> ";
+		validationflag=1;
+		$("#errorid").append(errorval);
+	}
+	else{
+RequestStatus="RequestReviwedbyCNB";
+Outcome="Rejected";
+//updatedata(reqid);
+UpdateTask(Outcome);
+ window.location.replace("http://hraes-uat/sites/eservices/Pages/homepage.aspx");
+	}
+});
+$("#PNRReview").click(function(){
+RequestStatus="RequestReviwedbyPNR2";
+Outcome="Reviewed";
+//updatedata(reqid);
+UpdateTask(Outcome);
+ window.location.replace("http://hraes-uat/sites/eservices/Pages/homepage.aspx");
+});
+$("#aatReview").click(function(){
+RequestStatus="RequestReviwedbyAAT";
+Outcome="Reviewed";
+UpdateTask(Outcome);
+//updatedata(reqid);
+ window.location.replace("http://hraes-uat/sites/eservices/Pages/homepage.aspx");
+});
+var userLang = navigator.language || navigator.userLanguage;
+var dict = {
+	"Equation to evaluate the performance with details":{
+		pt:"شرح المعادلة المستخدمة لتقييم الأداء",
+		en:"Equation to evaluate the performance with details"
+	},
+	"Reviewed":{
+		pt:"تمت المراجعة",
+		en:"Reviewed"
+	},
+	 "Add Notes": {
+    pt: "إضافة ملاحظات",
+    en: "Add Notes"
+  },
+   "Notes": {
+    pt: "ملاحظات",
+    en: "Notes"
+  },
+   "Add Study": {
+    pt: "اضافة الدراسة",
+    en: "Add Study"
+  },
+   "Study": {
+    pt: "الدراسة",
+    en: "Study"
+  },
+	"Log in": {
+    pt: "تسجيل الدخول",
+	en: "Log in"
+  },	
+	"Support": {
+    pt: "الدعم",
+	en: "Support"
+  },
+"e Services": {
+    pt: "الخدمات الالكترونية",
+	en: "e Services"
+  },
+"About HRA": {
+    pt: "حول هيئة الموارد البشرية",
+	en: "About HRA"
+  },  
+"Home": {
+    pt: "الرئيسية",
+	en: "Home"
+  }, 		
+"Copyright @ 2019 Human Resources Authority": {
+    pt: "جميع الحقوق محفوظة لهيئة الموارد البشرية @ 2019",
+	en: "Copyright @ 2019 Human Resources Authority"
+  }, 
+  "Site Map": {
+    pt: "خريطة الموقع",
+	en: "Site Map"
+  }, 
+  "Links": {
+    pt: "روابط",
+	en: "Links"
+  }, 
+  "HRA Employees": {
+    pt: "موظفو هيئة الموارد البشرية ",
+	en: "HRA Employees"
+  }, 
+  "Questions and Answers": {
+    pt: "أسئلة وأجوبة",
+	en: "Questions and Answers"
+  }, 
+  "Arabic": {
+    pt: "عربي",
+	en: "Arabic"
+  }, 
+
+  "Bonus Request Service": {
+    pt: "خدمة طلب مكافأة",
+	en: "Bonus Request Service"
+  },
+  "Entity Logo": {
+    pt: "شعار الجهة",
+    en: "Entity Logo"
+  },
+  "Entity Name": {
+    pt: "اسم الجهة",
+    en: "Entity Name"
+  },
+  "Coordinator Name": {
+    pt: "اسم المنسق",
+    en: "Coordinator Name"
+  },
+ "Job Name": {
+    pt: "المسمى الوظيفي",
+    en: "Job Name"
+  },
+  "Contact Number": {
+    pt: "رقم التواصل",
+    en: "Contact Number"
+  },
+  "Email": {
+    pt: "البريد الالكتروني",
+    en: "Email"
+  }, 
+  "Approved Grades and Salaries": {
+    pt: "سلم الدرجات والرواتب المعتمد",
+    en: "Approved Grades and Salaries"
+  },
+  "Do you have a budget for employee bonuses? Please indicate the value of the budget indicated in an official document": {
+    pt: "هل يوجد لديكم ميزانية كافية لصرف مكافآت للموظفين؟؟, الرجاء ايفاؤنا بقيمة الميزانية في ملف رسمي مرفق",
+    en: "Do you have a budget for employee bonuses? Please indicate the value of the budget indicated in an official document"
+  },
+  "Yes": {
+    pt: "نعم",
+    en: "Yes"
+  },
+  "No": {
+    pt: "لا",
+    en: "No"
+  },
+   "Reasons to pay Bonuses": {
+    pt: "المبررات الداعمة لصرف المكافآت",
+    en: "Reasons to pay Bonuses"
+  },
+     "Entity Achivements for Year": {
+    pt: "انجازات الجهة للعام",
+    en: "Entity Achivements for Years"
+  },
+  "Enter the Year": {
+    pt: "أدخل السنة",
+    en: "Enter the Year"
+  },
+  "Balanced Score Card": {
+    pt: "نتائج الأداء المؤسسي للجهة",
+    en: "Balanced Score Card"
+  },
+  "Financial Statement": {
+    pt: "البيانات المالية",
+    en: "Financial Statement"
+  },
+  "Tax Summary": {
+    pt: "ملخص الضريبة",
+    en: "Tax Summary"
+  },
+  "Previous": {
+    pt: "السابق",
+    en: "Previous"
+  },
+  "Next": {
+    pt: "التالي",
+    en: "Next"
+  },
+  "Total Employees of Entity": {
+    pt: "إجمالي القوى العاملة في الجهة",
+    en: "Total Employees of Entity"
+  },
+  "* Please fill all the details!!!":{
+	  pt: "الرجاء تعبئة جميع الحقول الضرورية",
+    en: "* Please fill all the details!!!"
+  },
+  "Enter the Total number of Employees":{
+	  pt: "العدد الكلي لموظفي الجهة المطلوب صرف مكافآت لهم",
+    en: "Enter the Total number of Employees"
+  },
+  "Percentage of Emiratisation": {
+    pt: "نسبة التوطين المحققة لآخر عامين متتاليين",
+    en: "Percentage of Emiratisation"
+  },
+  "Please enter last two consecutive years with their percentages like 2017-2018": {
+    pt: "الرجاء إدخال العامين الماضيين المتتاليين مع نسبهما مثل 2017-2018",
+    en: "(for example Please enter last two consecutive years with their percentages like 2017-2018)"
+  },
+  "Results of evaluation for general performance for all entity employees (including the employees who request annual bonus for them)<br>Must be approved from President of Entity": {
+    pt: "نتائج تقييم الأداء العام لجميع موظفي الجهة (بما في ذلك الموظفين المطلوب صرف مكافآت سنوية لهم)  يجب أن تكون معتمدة من رئيس الجهة",
+    en: "Results of evaluation for general performance for all entity employees (including the employees who request annual bonus for them)<br>Must be approved from President of Entity"
+  },
+  "For Private contracts employee which request annual bonus for them. Do their Contracts have fixed bonus? and if present please upload copy of all the contracts for all employees which request annual bonuses for them": {
+    pt: "من أجل موظفي العقود الخاصة المطلوب صرف مكافأة سنوية لهم. هل عقودهم الوظيفية تتضمن قيمة محددة كمكافأة أداء سنوية؟ وإذا كان موجودًا ، يرجى تحميل نسخة من جميع العقود لجميع الموظفين الذين يطلب مكافآت سنوية لهم",
+    en: "For Private contracts employee which request annual bonus for them. Do their Contracts have fixed bonus? and if present please upload copy of all the contracts for all employees which request annual bonuses for them"
+  },
+  "Explain the equation to evaluate the performance with details": {
+    pt: "الرجاء توضيح المعادلة المستخدمة في تقييم الأداء مع بيان النسب التالية",
+    en: "Explain the equation to evaluate the performance with details"
+  },
+  "Percentage of Employee which they got Excellentgrade of total entity Employees": {
+    pt: "نسبة الموظفين الحاصلين على تقدير ممتاز من إجمالي موظفي الجهة",
+    en: "Percentage of Employee which they got Excellentgrade of total entity Employees"
+  },
+  "Total number of Employees": {
+    pt: "العدد الإجمالي للموظفين",
+    en: "Total number of Employees"
+  },
+  "Percentage of Employee which they got Very Good grade of total entity Employees":{
+	pt: "نسبة الموظفين الحاصلين على تقدير جيد جدا من إجمالي موظفي الجهة",
+    en: "Percentage of Employee which they got Very Good grade of total entity Employees"
+	  
+  },
+  "Percentage of Employee which they got Good grade of total entity Employees":{
+	pt: "نسبة الموظفين الحاصلين على تقدير جيد  من إجمالي موظفي الجهة",
+    en: "Percentage of Employee which they got Good grade of total entity Employees"
+	  
+  },
+  "Percentage of Employee which they got Acceptable grade of total entity Employees":{
+	pt: "نسبة الموظفين الحاصلين على درجة مقبول من إجمالي موظفي الجهة",
+    en: "Percentage of Employee which they got Acceptable grade of total entity Employees"
+	  
+  },
+   "Percentage of Employee which they got Weak grade of total entity Employees":{
+	pt: "نسبة الموظفين الحاصلين على تقدير ضعيف من إجمالي موظفي الجهة",
+    en: "Percentage of Employee which they got Weak grade of total entity Employees"
+	  
+  },
+   "Please download and fill the excel and reupload it":{
+	pt: "الرجاء تحميل نموذج كشف الموظفين وتعبئته بدقة ثم اعادة تحميله ثانية",
+    en: "Please download and fill the excel and reupload it"
+	  
+  },
+  "Confirm":{
+	pt: "تأكيد الطلب",
+    en: "Confirm"
+	  
+  },
+  "Total number of locals with private contract":{
+	  pt: "إجمالي عدد السكان المحليين بعقد خاص",
+    en: "Total number of locals with private contract"
+	 	  
+  },
+  "Total number of locals with permanent contract":{
+	  pt: "إجمالي عدد السكان المحليين بعقد دائم",
+    en: "Total number of locals with permanent contract"
+	 	  
+  },
+  "Total number of non locals with private contract":{
+	  pt: "العدد الإجمالي لغير المواطنين الذين لديهم عقد خاص",
+    en: "Total number of non locals with private contract"
+	 	  
+  },
+  "Total number of non locals with permanent contract":{
+	  pt: "العدد الإجمالي لغير المواطنين الذين لديهم عقد دائم",
+    en: "Total number of non locals with permanent contract"
+	 	  
+  },
+  "Percentage of Emiratisation year 1":{
+	  pt: "نسبة التوطين سنة 1",
+    en: "Percentage of Emiratisation year 1"
+	 	  
+  },
+  "Percentage of Emiratisation year 2":{
+	 pt: "نسبة التوطين العام 2",
+    en: "Percentage of Emiratisation year 1"
+	 	  
+  },
+  "No of Employees with Excellent grade":{
+	 pt: "الموظفين الحاصلين على تقدير ممتاز",
+    en: "No of Employees with Excellent grade"
+	 	  
+  },
+  "No of Employees with Very Good grade":{
+	 pt: "الموظفين الحاصلين على تقدير جيد جدا",
+    en: "No of Employees with Very Good grade"
+	 	  
+  },
+  "No of Employees with Good grade":{
+	 pt: "الموظفين الحاصلين على تقدير جيد ",
+    en: "No of Employees with Good grade"
+	 	  
+  },
+  "No of Employees with Acceptable grade":{
+	 pt: "الموظفين الحاصلين على درجة مقبول ",
+    en: "No of Employees with Acceptable grade"
+	 	  
+  },
+  "No of Employees with Weak grade":{
+	 pt: "الموظفين الحاصلين على تقدير ضعيف",
+    en: "No of Employees with Weak grade"
+	 	  
+  },
+  
+  
+  
+}
+
+
+var translator = $('body').translate({lang: "en", t: dict}); 
+//if(userLang.indexOf('ar')!= -1){
+if(userLang.indexOf('en')!= -1){
+translator.lang("pt");
+}
+//else if(userLang.indexOf('en')!= -1){
+//translator.lang("en");
+//}
+$("#Englishbtnid").click(function(){
+	translator.lang("en");
+	languageis="en";
+	$("#arabicbtnid").show();
+	$("#Englishbtnid").hide();
+	$(".formdivcls tr").each(function(elem,index){
+      var arr = $.makeArray($("td",this).detach());
+      arr.reverse();
+        $(this).append(arr);
+    });
+	$(".labelcls").css({"border-left": "4px solid #6999ad", "padding-left": "10px","border-right":"none","padding-right": "0px"});
+	$(".radiocls").css({"float": "left"});
+	$(".formdivcls table td").css({"text-align":"left"});
+$("input").css({"text-align":"left","float":"left"});
+$("p").css({"text-align":"left"});
+$("a").css({"text-align":"left"});
+$("textarea").css({"text-align":"left"});
+$(".tablefloat").css({"float":"left"});
+$(".bigtableclsdiv table").css({"float":"left"});
+$("#budgetid").attr("placeholder","Please Enter Budget");
+$("#entityattachmentsforyearid").attr("placeholder","Enter the year");
+$("#achivementsid").attr("placeholder","Enter the achivements");
+$("#noofempgettingbonussesid").attr("placeholder","Enter the total Employees number");
+$("#noofemplocpricontractid").attr("placeholder","Enter the number of locals with private contract");
+$("#noofemplocpercontractid").attr("placeholder","Enter the number of locals with permanent contrac");
+$("#noofempnonlocpricontractid").attr("placeholder","Enter the number of non locals with private contract");
+$("#noofempnonlocpercontractid").attr("placeholder","Enter the number of non locals with permanent contract");
+$("#year1percentageid").attr("placeholder","Enter the percentage");
+$("#year2percentageid").attr("placeholder","Enter the percentage");
+$("#year1id").attr("placeholder","Enter the year");
+$("#year2id").attr("placeholder","Enter the year");//achivementsid
+$("#evaluationtotalid").attr("placeholder","Enter the evaluate equation here");
+$("#TotalNumberofEmpid").attr("placeholder","Enter the total number of employees");
+$("#excellentyid").attr("placeholder","Enter Excellent Employees")
+$("#verygoodyid").attr("placeholder","Enter Very good Employees")
+$("#goodyid").attr("placeholder","Enter Good Employees")
+$("#acceptableyid").attr("placeholder","Enter acceptable Employees")
+$("#weakyid").attr("placeholder","Enter Weak Employees")
+	return false;
+});
+$("#arabicbtnid").click(function(){
+	translator.lang("pt");
+	$("#arabicbtnid").hide();
+	$("#Englishbtnid").show();
+	languageis="ar";
+	$(".formdivcls tr").each(function(elem,index){
+      var arr = $.makeArray($("td",this).detach());
+      arr.reverse();
+        $(this).append(arr);
+    });
+	$(".labelcls").css({"border-right": "4px solid #6999ad", "padding-right": "10px","border-left":"none","padding-left": "0px"});
+	$(".radiocls").css({"float": "right"});
+	$(".formdivcls table td").css({"text-align":"right"});
+$("input").css({"text-align":"right","float":"right"});
+$("p").css({"text-align":"right"});
+$("a").css({"text-align":"right"});
+$("textarea").css({"text-align":"-webkit-right"});
+$(".tablefloat").css({"float":"right"});
+$(".bigtableclsdiv table").css({"float":"right"});
+$("#budgetid").attr("placeholder","الرجاء ادخال الميزانية");
+$("#entityattachmentsforyearid").attr("placeholder","أدخل السنة");
+$("#achivementsid").attr("placeholder","انجازات الجهة للعام");
+$("#noofempgettingbonussesid").attr("placeholder","العدد الكلي لموظفي الجهة المطلوب صرف مكافآت لهم");
+$("#noofemplocpricontractid").attr("placeholder","عدد الموظفين المواطنين ذوو العقود الخاصة");
+$("#noofemplocpercontractid").attr("placeholder","عدد الموظفين المواطنين ذوو العقود الدائمة");
+$("#noofempnonlocpricontractid").attr("placeholder","عدد الموظفين غير المواطنين ذوو العقود الخاصة");
+$("#noofempnonlocpercontractid").attr("placeholder","عدد الموظفين غير المواطنين ذوو العقود الدائمة");
+$("#year1percentageid").attr("placeholder","أدخل النسبة");
+$("#year2percentageid").attr("placeholder","أدخل النسبة");
+$("#year1id").attr("placeholder","ادخل السنة");
+$("#year2id").attr("placeholder","أدخل النسبة");
+$("#evaluationtotalid").attr("placeholder","أدخل المعادلةالمستخدمة");
+$("#TotalNumberofEmpid").attr("placeholder","أدخل العدد الكلي لموظفي الجهة");
+$("#excellentyid").attr("placeholder","أدخل عدد الموظفين الحاصلين على تقدير ممتاز من إجمالي موظفي الجهة")
+$("#verygoodyid").attr("placeholder","أدخل عدد الموظفين الحاصلين على تقديرجيد جدا من إجمالي موظفي الجهة")
+$("#goodyid").attr("placeholder","أدخل عدد الموظفين الحاصلين على درجة جيد")
+$("#acceptableyid").attr("placeholder","أدخل عدد الموظفين الحاصلين على درجة مقبول")
+$("#weakyid").attr("placeholder","أدخل عدد الموظفين الحاصلين على تقدير ضعيف")
+	return false;
+});
+
+
+});
+
+function UpdateTask(taskOutCome) {
+    // taskOutCome may be approve or reject.
+    var siteUrl = _spPageContextInfo.webAbsoluteUrl;
+    
+    //   http://[...]/_api/web/lists/getbytitle('Employees')/Items/?$select=Title,Employer/Id&$expand=Employer/Id&$filter=Employer/Id eq 1
+    //var fullUrl2 = siteUrl + "/_api/web/lists/GetByTitle('BonusReqTaskList')/items?$select=Title";
+    
+    var requestUri = _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getByTitle('BonusReqTaskList')/items("+taskid+")";
+        var requestHeaders = { 'Accept': 'application/json;odata=verbose', 
+            'X-RequestDigest': $('#__REQUESTDIGEST').val(), 
+            'X-HTTP-Method': 'MERGE', 
+            'If-Match': '*' };    
+          
+        var taskData = {
+                "__metadata": { "type": "SP.Data.BonusReqTaskListListItem" },
+                "TaskOutcome": taskOutCome,
+                "Status": "Completed",
+                "PercentComplete": 100 
+            };
+        requestBody = JSON.stringify(taskData); 
+        $.ajax({ url: requestUri, type: 'POST', 
+            contentType: 'application/json;odata=verbose',
+             headers: requestHeaders, 
+            data: JSON.stringify(taskData)
+        ,
+        success: function (response)
+        { alert('The task is successfully completed');
+        }, 
+        error: function(error)
+        { 
+            alert("The task could not completed");
+        } 
+        });
+    }
+
+function getreqid(id){
+	var queryUrl =  "http://hraes-uat/sites/eservices/_api/lists/GetByTitle('BonusRequestList')/items?$filter=ID eq '"+id+"'";
+	var data;
+	$.ajax  
+    ({  
+        url: queryUrl,  
+        type: "GET",  
+        data: data,  
+        headers:  
+        {  
+            "Accept": "application/json;odata=verbose",  
+            "Content-Type": "application/json;odata=verbose",  
+            "X-RequestDigest": $("#__REQUESTDIGEST").val(),  
+            "IF-MATCH": "*",  
+            "X-HTTP-Method": null  
+        },  
+        cache: false,  
+        success: function(data)   
+        { 
+		reqid=data.d.results[0].BonusReqestID;
+		getdata(reqid);	
+		}
+	});
+	
+}
+function getdata(reqid){
+	var queryUrl =  "http://hraes-uat/sites/eservices/_api/lists/GetByTitle('BonusRequestList')/items?$filter=BonusReqestID eq '"+reqid+"'";
+	 var data;
+     
+   $.ajax  
+    ({  
+        url: queryUrl,  
+        type: "GET",  
+        data: data,  
+        headers:  
+        {  
+            "Accept": "application/json;odata=verbose",  
+            "Content-Type": "application/json;odata=verbose",  
+            "X-RequestDigest": $("#__REQUESTDIGEST").val(),  
+            "IF-MATCH": "*",  
+            "X-HTTP-Method": null  
+        },  
+        cache: false,  
+        success: function(data)   
+        { 
+
+		RequestStatus=data.d.results[0].RequestStatus;
+            if(RequestStatus==""){
+			$("#scgform0").show();
+			$("#scgform1").hide();
+			$("#scgform2").hide();
+			$("#scgform3").hide();
+			$("#scgform4").hide();
+			$("#scgform5").hide();
+			$("#scgform6").show();
+			$("#gmtrid").hide();
+			$("#pnrtrid").hide();
+			$("#cnbtrid").hide();
+			$("#cnbtrid2").hide();
+			$("#pnrtrid2").hide();
+			$("#aatrid").hide();
+			$("#confirmid").show();
+			$("#GMReview").hide();
+			$("#PNRAPPROVEID").hide();
+			$("#PNRrejectid").hide();
+			$("#CNBAPPROVEID").hide();
+			$("#CNGrejectid").hide();
+			$("#PNRReview").hide();
+			$("#aatReview").hide();
+			}
+			if(RequestStatus=="Waiting for Review from GM Ofiice"){
+			$("#scgform0").hide();
+			$("#scgform1").hide();
+			$("#scgform2").hide();
+			$("#scgform3").hide();
+			$("#scgform4").hide();
+			$("#scgform5").hide();
+			$("#scgform6").show();
+			$("#gmtrid").show();
+			$("#pnrtrid").hide();
+			$("#cnbtrid").hide();
+			$("#cnbtrid2").hide();
+			$("#pnrtrid2").hide();
+			$("#aatrid").hide();
+			$("#confirmid").hide();
+			$("#GMReview").show();
+			$("#PNRAPPROVEID").hide();
+			$("#PNRrejectid").hide();
+			$("#CNBAPPROVEID").hide();
+			$("#CNGrejectid").hide();
+			$("#PNRReview").hide();
+			$("#aatReview").hide();
+			}
+			
+			if(RequestStatus=="Waiting for Approval form Policies and Rearch Department"){
+			$("#scgform0").hide();
+			$("#scgform1").hide();
+			$("#scgform2").hide();
+			$("#scgform3").hide();
+			$("#scgform4").hide();
+			$("#scgform5").hide();
+			$("#scgform6").show();
+			$("#gmtrid").show();
+			$("#gmnotesid").attr("disabled", true);
+			$("#pnrtrid").show();
+			$("#cnbtrid").hide();
+			$("#cnbtrid2").hide();
+			$("#pnrtrid2").hide();
+			$("#aatrid").hide();
+			$("#confirmid").hide();
+			$("#GMReview").hide();
+			if(languageis=="en"){
+			$("#gmnotesidp").text("Notes");
+			}
+			if(languageis=="ar"){
+			$("#gmnotesidp").text("ملاحظات");
+			}
+			$("#PNRAPPROVEID").show();
+			$("#PNRrejectid").show();
+			$("#CNBAPPROVEID").hide();
+			$("#CNGrejectid").hide();
+			$("#PNRReview").hide();
+			$("#aatReview").hide();
+			}
+			if(RequestStatus=="Waiting for Approval from Compensation and Benefits Department"){
+			$("#scgform0").hide();
+			$("#scgform1").hide();
+			$("#scgform2").hide();
+			$("#scgform3").hide();
+			$("#scgform4").hide();
+			$("#scgform5").hide();
+			$("#scgform6").show();
+			$("#gmtrid").show();
+			$("#gmnotesid").attr("disabled", true);
+			$("#pnrtrid").show();
+			$("#pnrnotesid").attr("disabled", true);
+			$("#cnbtrid").show();
+			$("#cnbtrid2").show();
+			$("#pnrtrid2").hide();
+			$("#aatrid").hide();
+			$("#confirmid").hide();
+			$("#GMReview").hide();
+			$("#PNRAPPROVEID").hide();
+			$("#PNRrejectid").hide();
+			if(languageis=="en"){
+			$("#gmnotesidp").text("Notes");
+			$("#pnrnotesidp").text("Notes");
+			}
+			if(languageis=="ar"){
+			$("#gmnotesidp").text("ملاحظات");
+			$("#pnrnotesidp").text("ملاحظات");
+			}
+			$("#CNBAPPROVEID").show();
+			$("#CNGrejectid").show();
+			$("#PNRReview").hide();
+			$("#aatReview").hide();
+			}
+			if(RequestStatus=="Waiting for Review from Policies and Research Department"){
+			$("#scgform0").hide();
+			$("#scgform1").hide();
+			$("#scgform2").hide();
+			$("#scgform3").hide();
+			$("#scgform4").hide();
+			$("#scgform5").hide();
+			$("#scgform6").show();
+			$("#gmtrid").show();
+			$("#gmnotesid").attr("disabled", true);
+			$("#pnrtrid").show();
+			$("#pnrnotesid").attr("disabled", true);
+			$("#cnbtrid").show();
+			$("#cnbtrid2").show();
+			$("#cnbnotesid").attr("disabled", true);
+			$("#stydyfileid").hide();
+			$("#pnrtrid2").show();
+			$("#aatrid").hide();
+			$("#confirmid").hide();
+			$("#GMReview").hide();
+			$("#PNRAPPROVEID").hide();
+			$("#PNRrejectid").hide();
+			$("#CNBAPPROVEID").hide();
+			$("#CNGrejectid").hide();
+			if(languageis=="en"){
+			$("#gmnotesidp").text("Notes");
+			$("#pnrnotesidp").text("Notes");
+			$("#cnbnotesidp").text("Notes");
+			}
+			if(languageis=="ar"){
+			$("#gmnotesidp").text("ملاحظات");
+			$("#pnrnotesidp").text("ملاحظات");
+			$("#cnbnotesidp").text("ملاحظات");
+			}
+			$("#PNRReview").show();
+			$("#aatReview").hide();
+			}
+			if(RequestStatus=="Waiting for from Authority and Affair Unit"){
+			$("#scgform0").hide();
+			$("#scgform1").hide();
+			$("#scgform2").hide();
+			$("#scgform3").hide();
+			$("#scgform4").hide();
+			$("#scgform5").hide();
+			$("#scgform6").show();
+			$("#gmtrid").show();
+			$("#gmnotesid").attr("disabled", true);
+			$("#pnrtrid").show();
+			$("#pnrnotesid").attr("disabled", true);
+			$("#cnbtrid").show();
+			$("#cnbtrid2").show();
+			$("#cnbnotesid").attr("disabled", true);
+			$("#stydyfileid").hide();
+			$("#pnrtrid2").show();
+			$("#pnrnotesid2").attr("disabled", true);
+			$("#aatrid").show();
+			$("#confirmid").hide();
+			$("#GMReview").hide();
+			$("#PNRAPPROVEID").hide();
+			$("#PNRrejectid").hide();
+			$("#CNBAPPROVEID").hide();
+			$("#CNGrejectid").hide();
+			if(languageis=="en"){
+			$("#gmnotesidp").text("Notes");
+			$("#pnrnotesidp").text("Notes");
+			$("#cnbnotesidp").text("Notes");
+			$("#pnrnotesid2p").text("Notes");
+			}
+			if(languageis=="ar"){
+			$("#gmnotesidp").text("ملاحظات");
+			$("#pnrnotesidp").text("ملاحظات");
+			$("#cnbnotesidp").text("ملاحظات");
+			$("#pnrnotesid2p").text("Notes");
+			}
+			$("#PNRReview").hide();
+			$("#aatReview").show();
+			
+			}
+			if(RequestStatus=="Revied by the AAUnit and the request completed."){
+			$("#scgform0").hide();
+			$("#scgform1").hide();
+			$("#scgform2").hide();
+			$("#scgform3").hide();
+			$("#scgform4").hide();
+			$("#scgform5").hide();
+			$("#scgform6").show();
+			$("#gmtrid").show();
+			$("#gmnotesid").attr("disabled", true);
+			$("#pnrtrid").show();
+			$("#pnrnotesid").attr("disabled", true);
+			$("#cnbtrid").show();
+			$("#cnbtrid2").show();
+			$("#cnbnotesid").attr("disabled", true);
+			$("#stydyfileid").hide();
+			$("#pnrtrid2").show();
+			$("#pnrnotesid2").attr("disabled", true);
+			$("#aatrid").show();
+			$("#aatnotesid").attr("disabled", true);
+			$("#confirmid").hide();
+			$("#GMReview").hide();
+			$("#PNRAPPROVEID").hide();
+			$("#PNRrejectid").hide();
+			$("#CNBAPPROVEID").hide();
+			$("#CNGrejectid").hide();
+			$("#PNRReview").hide();
+			$("#aatReview").hide();
+			if(languageis=="en"){
+			$("#gmnotesidp").text("Notes");
+			$("#pnrnotesidp").text("Notes");
+			$("#cnbnotesidp").text("Notes");
+			$("#pnrnotesid2p").text("Notes");
+			$("#aatnotesidp").text("Notes");
+			}
+			if(languageis=="ar"){
+			$("#gmnotesidp").text("ملاحظات");
+			$("#pnrnotesidp").text("ملاحظات");
+			$("#cnbnotesidp").text("ملاحظات");
+			$("#pnrnotesid2p").text("ملاحظات");
+			$("#aatnotesidp").text("ملاحظات");
+			}
+			}
+            for (var i = 0; i < data.d.results.length; i++)   
+            {  
+					idofitem=data.d.results[i].ID;
+					//alert(idofitem);
+		
+                $("#Entitynameid").val(data.d.results[i].Company);
+				  
+            $("#Jobnameid").val(data.d.results[i].JobTitle);  
+            $("#coordinatornameid").val(data.d.results[i].CoordinatorName);
+			$("#contactnumberid").val(data.d.results[i].WorkPhone);
+			$("#emailid").val(data.d.results[i].EMail);
+			//data.d.results[i].RequestorName);
+			//data.d.results[i].IssueDate
+			$("#budgetid").val(data.d.results[i].BudgetValue);
+			var x=data.d.results[i].ReasonsToGiveBonuses;
+			var y=$(x).text();
+			$("#reasontopayid").val(y);
+			$("#noofempgettingbonussesid").val(data.d.results[i].NoOfEmpGettingBonus);
+			if(data.d.results[i].budgetdocyesno =="yes"){
+				$("input[name='yesno'][value='yes']").prop('checked',true);
+			}
+			else{
+				$("input[name='yesno'][value='no']").prop('checked',true);
+			}
+			/*$("input[name='yesno']").val(data.d.results[i].budgetdocyesno);*//////check
+			
+			$("#entityattachmentsforyearid").val(data.d.results[i].entityattachmentsforyear);
+			var a=data.d.results[i].achivements;
+			var b=$(a).text();
+			$("#achivementsid").val(b);
+			$("#noofemplocpricontractid").val(data.d.results[i].NumberOfLocals);
+			$("#noofempnonlocpricontractid").val(data.d.results[i].NumberOfNonLocals);
+			$("#noofemplocpercontractid").val(data.d.results[i].Nooflocalswithpermanent);
+			$("#noofempnonlocpercontractid").val(data.d.results[i].Noofnonlocalswithpermanent);
+			$("#year1id").val(data.d.results[i].Totalincomeyear1);
+			$("#year2id").val(data.d.results[i].Totalincomeyear2);
+			$("#year2percentageid").val(data.d.results[i].TotalIncome2ndYear);
+			$("#year1percentageid").val(data.d.results[i].TotalIncomeIstYear);
+			var m=data.d.results[i].evaluationtotal;
+			var n=$(m).text();
+			$("#evaluationtotalid").val(n);
+			$("#goodid").val(data.d.results[i].PercentageOfEmployeeGood);
+			$("#excellentid").val(data.d.results[i].PercentageOfEmployeesExcellence);
+			$("#acceptableid").val(data.d.results[i].PercentageOfExmployeeAcceptable);
+			$("#verygoodid").val(data.d.results[i].PercentageOfExmployeeVeryGood);
+			$("#weakid").val(data.d.results[i].PercentageOfExmployeeWeak);
+			$("#goodyid").val(data.d.results[i].PercentageOfEmployeeGoody);
+			$("#excellentyid").val(data.d.results[i].PercentageOfEmployeesExcellencey);
+			$("#acceptableyid").val(data.d.results[i].PercentageOfExmployeeAcceptabley);
+			$("#verygoodyid").val(data.d.results[i].PercentageOfExmployeeVeryGoody);
+			$("#weakyid").val(data.d.results[i].PercentageOfExmployeeWeaky);
+			//data.d.results[i].RequestID:RequestID,
+			//data.d.results[i].Requestidwithlink: {Url: RequestIDwithlink, Description: RequestID}
+			$("#Entitynamereadonlyid").val(data.d.results[i].Company);
+				  
+            $("#Jobnameidreadonly").val(data.d.results[i].JobTitle);  
+            $("#coordinatornameidreadonly").val(data.d.results[i].CoordinatorName);
+			$("#contactnumberidreadonly").val(data.d.results[i].WorkPhone);
+			$("#emailidreadonly").val(data.d.results[i].EMail);
+			//data.d.results[i].RequestorName);
+			//data.d.results[i].IssueDate
+			$("#budgetidreadonly").val(data.d.results[i].BudgetValue);
+			var q=data.d.results[i].ReasonsToGiveBonuses;
+			var w=$(q).text();
+			
+			$("#reasontopayidreadonly").val(w);
+			
+			$("#noofempgettingbonussesidreadonly").val(data.d.results[i].NoOfEmpGettingBonus);
+			
+			/*$("input[name='yesno']").val(data.d.results[i].budgetdocyesno);*//////check
+			
+			$("#entityattachmentsforyearidreadonly").val(data.d.results[i].entityattachmentsforyear);
+			var e=data.d.results[i].achivements;
+			var r=$(e).text();
+			$("#achivementsidreadonly").val(r);
+			
+			$("#noofemplocpricontractidreadonly").val(data.d.results[i].NumberOfLocals);
+			$("#noofempnonlocpricontractidreadonly").val(data.d.results[i].NumberOfNonLocals);
+			$("#noofemplocpercontractidreadonly").val(data.d.results[i].Nooflocalswithpermanent);
+			$("#noofempnonlocpercontractidreadonly").val(data.d.results[i].Noofnonlocalswithpermanent);
+			$("#year1idreadonly").val(data.d.results[i].Totalincomeyear1);
+			$("#year2idreadonly").val(data.d.results[i].Totalincomeyear2);
+			$("#year2percentageidreadonly").val(data.d.results[i].TotalIncome2ndYear);
+			$("#year1percentageidreadonly").val(data.d.results[i].TotalIncomeIstYear);
+			$("#evaluationtotalidreadonly").val(n);
+			$("#goodidreadonly").val(data.d.results[i].PercentageOfEmployeeGood);
+			$("#excellentidreadonly").val(data.d.results[i].PercentageOfEmployeesExcellence);
+			$("#acceptableidreadonly").val(data.d.results[i].PercentageOfExmployeeAcceptable);
+			$("#verygoodidreadonly").val(data.d.results[i].PercentageOfExmployeeVeryGood);
+			$("#weakidreadonly").val(data.d.results[i].PercentageOfExmployeeWeak);
+			$("#goodyidreadonly").val(data.d.results[i].PercentageOfEmployeeGoody);
+			$("#excellentyidreadonly").val(data.d.results[i].PercentageOfEmployeesExcellencey);
+			$("#acceptableyidreadonly").val(data.d.results[i].PercentageOfExmployeeAcceptabley);
+			$("#verygoodyidreadonly").val(data.d.results[i].PercentageOfExmployeeVeryGoody);
+			$("#weakyidreadonly").val(data.d.results[i].PercentageOfExmployeeWeaky);
+$("#aatnotesid").val(data.d.results[i].CommentsByAAUnit);
+$("#cnbnotesid").val(data.d.results[i].CommentsByCBDept);
+$("#gmnotesid").val(data.d.results[i].CommentsByGMOffice);
+$("#pnrnotesid").val(data.d.results[i.CommentsByPRDept]);
+	$("#pnrnotesid2").val(data.d.results[i].ReviewCommentsbyPR);
+			
+					
+//}
+			}
+			getfiles(reqid);
+		}
+	});
+}
+function getfiles(reqid){
+	var queryUrl="http://hraes-uat/sites/eservices/_api/lists/GetByTitle('BonusRequestAttachments')/items?$select=LinkFilenameNoMenu,ID,LinkFilename,Typeofdocument,BonusRequestID&$filter=BonusRequestID eq '"+reqid+"'";
+	var data;
+     entitylogofiles="";
+	 gsfiles="";
+	 budgetfilenames=""
+	 balancenames=""
+	 financialnames=""
+	 taxnames=""
+	 contractnames=""
+	 evaluationnames=""
+	 empdetailfiles=""
+   $.ajax  
+    ({  
+        url: queryUrl,  
+        type: "GET",  
+        data: data,  
+        headers:  
+        {  
+            "Accept": "application/json;odata=verbose",  
+            "Content-Type": "application/json;odata=verbose",  
+            "X-RequestDigest": $("#__REQUESTDIGEST").val(),  
+            "IF-MATCH": "*",  
+            "X-HTTP-Method": null  
+        },  
+        cache: false,  
+        success: function(data)   
+        { 
+		for (var i = 0; i < data.d.results.length; i++)   
+            { 
+		if(data.d.results[i].Typeofdocument=="EntityLogo")
+		{
+			entitylogofiles+="<a href='"+"http://hraes-uat/sites/eservices/BonusRequestAttachments/"+data.d.results[i].LinkFilenameNoMenu+"'>"+data.d.results[i].LinkFilenameNoMenu+"</a>;"
+		}
+		if(data.d.results[i].Typeofdocument=="GradeandSalary")
+		{
+			gsfiles+="<a href='"+"http://hraes-uat/sites/eservices/BonusRequestAttachments/"+data.d.results[i].LinkFilenameNoMenu+"'>"+data.d.results[i].LinkFilenameNoMenu+"</a>;"
+		}
+		if(data.d.results[i].Typeofdocument=="BalanceScoreCard")
+		{
+			balancenames+="<a href='"+"http://hraes-uat/sites/eservices/BonusRequestAttachments/"+data.d.results[i].LinkFilenameNoMenu+"'>"+data.d.results[i].LinkFilenameNoMenu+"</a>;"
+		}
+		if(data.d.results[i].Typeofdocument=="FinancialStatement")
+		{
+			financialnames+="<a href='"+"http://hraes-uat/sites/eservices/BonusRequestAttachments/"+data.d.results[i].LinkFilenameNoMenu+"'>"+data.d.results[i].LinkFilenameNoMenu+"</a>;"
+		}
+		if(data.d.results[i].Typeofdocument=="TaxSummary")
+		{
+			taxnames+="<a href='"+"http://hraes-uat/sites/eservices/BonusRequestAttachments/"+data.d.results[i].LinkFilenameNoMenu+"'>"+data.d.results[i].LinkFilenameNoMenu+"</a>;"
+		}
+		if(data.d.results[i].Typeofdocument=="BudgetDoc")
+		{
+			budgetfilenames+="<a href='"+"http://hraes-uat/sites/eservices/BonusRequestAttachments/"+data.d.results[i].LinkFilenameNoMenu+"'>"+data.d.results[i].LinkFilenameNoMenu+"</a>;"
+		}
+		if(data.d.results[i].Typeofdocument=="EvaluationResults")
+		{
+			evaluationnames+="<a href='"+"http://hraes-uat/sites/eservices/BonusRequestAttachments/"+data.d.results[i].LinkFilenameNoMenu+"'>"+data.d.results[i].LinkFilenameNoMenu+"</a>;"
+		}
+		if(data.d.results[i].Typeofdocument=="ContractDoc")
+		{
+			contractnames+="<a href='"+"http://hraes-uat/sites/eservices/BonusRequestAttachments/"+data.d.results[i].LinkFilenameNoMenu+"'>"+data.d.results[i].LinkFilenameNoMenu+"</a>;"
+		}
+		if(data.d.results[i].Typeofdocument=="Employeedetails")
+		{
+			empdetailfiles+="<a href='"+"http://hraes-uat/sites/eservices/BonusRequestAttachments/"+data.d.results[i].LinkFilenameNoMenu+"'>"+data.d.results[i].LinkFilenameNoMenu+"</a>;"
+		}
+		if(data.d.results[i].Typeofdocument=="CNBstudy")
+		{
+			studyfiles+="<a href='"+"http://hraes-uat/sites/eservices/BonusRequestAttachments/"+data.d.results[i].LinkFilenameNoMenu+"'>"+data.d.results[i].LinkFilenameNoMenu+"</a>;"
+		}
+			}
+			$("#entityfilesid").append(entitylogofiles);
+			$("#Gradensalaryfilesid").append(gsfiles);
+			$("#budgetfilesid").append(budgetfilenames);
+			$("#balancefilesid").append(balancenames);
+			$("#financefilesid").append(financialnames);
+			$("#taxsummaryid").append(taxnames);
+			$("#evaluationfilesid").append(evaluationnames);
+			$("#contractfilesid").append(contractnames);
+			$("#employeefilesid").append(empdetailfiles);
+			$("#studyfileslinksid").append(studyfiles);
+		}
+		
+	});
+	}
+
+function savedata(){
+	
+//	var itemType = Sp.Data.BonusRequestListListItem//GetItemTypeForListName(BonusRequestList);
+	//getting login user name
+	
+	Requestorjob=$("#Jobnameid").val();
+	EntityName=$("#Entitynameid").val();
+	coordinatorname=$("#coordinatornameid").val();
+	contactnumber=$("#contactnumberid").val();
+	budgetvalue=$("#budgetid").val();
+	if(budgetvalue==""){
+		budgetvalue=0;
+	}
+	resonstogivebonuses=$("#reasontopayid").val();
+	noofempgettingbonusses=parseInt($("#noofempgettingbonussesid").val());
+	noofemplocpricontract=parseInt($("#noofemplocpricontractid").val());
+	noofemplocpercontract=parseInt($("#noofemplocpercontractid").val());
+	noofempnonlocpricontract=parseInt($("#noofempnonlocpricontractid").val());
+	noofempnonlocpercontract=parseInt($("#noofempnonlocpercontractid").val());
+	if($("input[name='yesno']:checked").val()==undefined){
+		$("input[name='yesno']:checked").val("no")
+	}
+	if($("input[name='yesno2']:checked").val()==undefined){
+		$("input[name='yesno2']:checked").val("no")
+	}
+	budgetdocyesnoval=$("input[name='yesno']:checked").val();
+	PrivateContractyesnvalo=$("input[name='yesno2']:checked").val();
+	entityattachmentsforyearval= parseInt($("#entityattachmentsforyearid").val());
+	achivementsval =$("#achivementsid").val()
+	year1=parseInt($("#year1id").val());
+	year2=parseInt($("#year2id").val());
+	TotalIncome2ndYearval=parseInt($("#year1percentageid").val());
+	TotalIncomeIstYearval= parseInt($("#year2percentageid").val());
+	evaluationtotalval =parseInt($("#evaluationtotalid").val());
+	
+	 //percentageofemployeegood=parseInt($("#goodid").val());
+	 //percentageofemployeeexcellence=parseInt($("#excellentid").val());
+	 //percentageofemployeeacceptable=parseInt($("#acceptableid").val());
+	 //percentageofemployeeverygood=parseInt($("#verygoodid").val());
+	 //percentageofempweak=parseInt($("#weakid").val());
+	 
+	 percentageofemployeegoody=parseInt($("#goodyid").val());
+	 percentageofemployeeexcellencey=parseInt($("#excellentyid").val());
+	 percentageofemployeeacceptabley=parseInt($("#acceptableyid").val());
+	 percentageofemployeeverygoody=parseInt($("#verygoodyid").val());
+	 percentageofempweaky=parseInt($("#weakyid").val());
+	
+	
+	RequestIDwithlink="http://hraes-uat/sites/eservices/Pages/BonusRequestform.aspx"+"?"+RequestID;
+	emailid=$("#emailid").val();
+	var metadata =  
+            {  
+            __metadata:  
+              {  
+                'type': 'SP.Data.BonusRequestListListItem'  
+            },  
+			
+            Company: EntityName,  
+            JobTitle: Requestorjob,  
+            CoordinatorName: coordinatorname,
+			WorkPhone : contactnumber,
+			EMail :emailid,
+			RequestorName:Requestorname,
+			IssueDate: issueDate,
+			BudgetValue:budgetvalue,
+			ReasonsToGiveBonuses:resonstogivebonuses,
+			NoOfEmpGettingBonus:noofempgettingbonusses,
+			budgetdocyesno:budgetdocyesnoval,
+			PrivateContractyesno:PrivateContractyesnoval,
+			entityattachmentsforyear: entityattachmentsforyearval,
+			achivements:achivementsval,
+			NumberOfLocals:noofemplocpricontract,
+			NumberOfNonLocals:noofempnonlocpricontract,
+			Nooflocalswithpermanent: noofemplocpercontract,
+			Noofnonlocalswithpermanent:noofempnonlocpercontract,
+			Totalincomeyear1:year1,
+			Totalincomeyear2:year2,
+			TotalIncome2ndYear:TotalIncome2ndYearval,
+			TotalIncomeIstYear:TotalIncomeIstYearval,
+			evaluationtotal:evaluationtotalval,
+			PercentageOfEmployeeGood:percentageofemployeegood,
+			PercentageOfEmployeesExcellence:percentageofemployeeexcellence,
+			PercentageOfExmployeeAcceptable:percentageofemployeeacceptable,
+			PercentageOfExmployeeVeryGood:percentageofemployeeverygood,
+			PercentageOfExmployeeWeak:percentageofempweak,
+			PercentageOfEmployeeGoody:percentageofemployeegoody,
+			PercentageOfEmployeesExcellencey:percentageofemployeeexcellencey,
+			PercentageOfExmployeeAcceptabley:percentageofemployeeacceptabley,
+			PercentageOfExmployeeVeryGoody:percentageofemployeeverygoody,
+			PercentageOfExmployeeWeaky:percentageofempweaky,
+			BonusReqestID:RequestID,
+			Requestidwithlink: {Url: RequestIDwithlink, Description: RequestID},
+			//RequestStatus:RequestStatus,
+			//ApprovedRejectByAAUnit:Outcome,
+//ApprovedRejectByCBDept:Outcome,
+//ApprovedRejectByGMOffice:Outcome,
+//ApprovedRejectByPRDept:Outcome,
+CommentsByAAUnit:$("#aatnotesid").val(),
+CommentsByCBDept:$("#cnbnotesid").val(),
+CommentsByGMOffice:$("#gmnotesid").val(),
+CommentsByPRDept:$("#pnrnotesid").val(),
+ReviewCommentsbyPR	:$("#pnrnotesid2").val(),
+//ReviewedByPRDept:Outcome
+			
+        };
+		//Requestidwithlink:{
+                  //  '__metadata': { 'type': 'SP.FieldUrlValue' },
+                   // 'Description': RequestIDwithlink,
+                   // 'Url': RequestIDwithlink
+               // },
+	 var queryUrl =  "http://hraes-uat/sites/eservices/_api/lists/GetByTitle('BonusRequestList')/items";
+	  $.ajax({
+                    url: queryUrl,
+                    type: "POST",
+                    contentType: "application/json;odata=verbose",
+                   data: JSON.stringify(metadata),  
+                    headers: {
+                        "accept": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+						
+                    }, 
+					success: function (data) {
+                    //alert("success");
+					SP.SOD.executeFunc('sp.js', 'SP.ClientContext', createFile);
+                },
+                error: function (data) {
+                    alert("failed");
+                }
+                });
+            
+	
+}
+function getemail(){
+	  var userid= _spPageContextInfo.userId;
+  var requestUri = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + userid + ")";
+  var requestHeaders = { "accept" : "application/json;odata=verbose" };
+  $.ajax({
+    url : requestUri,
+    contentType : "application/json;odata=verbose",
+    headers : requestHeaders,
+    success : onSuccess1,
+    error : onError1
+  });
+  function onSuccess1(data, request){
+     
+	emailid= data.d.Email;
+	//alert(email);
+    return emailid;
+  }
+
+  function onError1(error) {
+    alert("error");
+  }
+  }
+function getusername(){
+	
+	var userid= _spPageContextInfo.userId;
+  var requestUri = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + userid + ")";
+  var requestHeaders = { "accept" : "application/json;odata=verbose" };
+  $.ajax({
+    url : requestUri,
+    contentType : "application/json;odata=verbose",
+    headers : requestHeaders,
+    success : onSuccess,
+    error : onError
+  });
+
+  function onSuccess(data, request){
+     Requestorname = data.d.Title;
+	email= data.d.Email;
+	//alert(email);
+    return Requestorname;
+  }
+
+  function onError(error) {
+    alert("error");
+  }
+}
+
+function createFile() {
+    //SP.SOD.executeFunc('sp.js', 'SP.ClientContext', createFile);
+	fileinput= $("#Gradensalaryid");
+	  element = document.getElementById("Gradensalaryid");
+	  elementlogo =document.getElementById("Entitylogofileid");
+	  elementbalancescorecard=document.getElementById("balancescorecardid");
+	  elementfinancialstatement=document.getElementById("financialstatementid");
+	  elementtaxsummary=document.getElementById("taxsummaryid");
+	  elementbudget=document.getElementById("budgetdocid");
+	  elementevaluation=document.getElementById("resultsofevaluationid");
+	  elementcontrats=document.getElementById("allcontractsid");
+	  elementempdetails=document.getElementById("Employeedetailsid");
+	  elementstudydetails=document.getElementById("stydyfileid");
+	 var filetype= "GradeandSalary";
+for(var i=0;i<element.files.length;i++)
+{	
+fileuploadfunc(element,filetype,i);
+}
+for(var i=0;i<elementlogo.files.length;i++)
+{	
+fileuploadfunc(elementlogo,"EntityLogo",i);
+}
+for(var i=0;i<elementbalancescorecard.files.length;i++)
+{	
+fileuploadfunc(elementbalancescorecard,"BalanceScoreCard",i);
+}
+for(var i=0;i<elementfinancialstatement.files.length;i++)
+{	
+fileuploadfunc(elementfinancialstatement,"FinancialStatement",i);
+}
+for(var i=0;i<elementtaxsummary.files.length;i++)
+{	
+fileuploadfunc(elementtaxsummary,"TaxSummary",i);
+}
+for(var i=0;i<elementbudget.files.length;i++)
+{	
+fileuploadfunc(elementbudget,"BudgetDoc",i);
+}
+for(var i=0;i<elementevaluation.files.length;i++)
+{	
+fileuploadfunc(elementevaluation,"EvaluationResults",i);
+}
+for(var i=0;i<elementcontrats.files.length;i++)
+{	
+fileuploadfunc(elementcontrats,"ContractDoc",i);
+}
+for(var i=0;i<elementempdetails.files.length;i++)
+{	
+fileuploadfunc(elementempdetails,"Employeedetails",i);
+}
+for(var i=0;i<elementstudydetails.files.length;i++)
+{	
+fileuploadfunc(elementstudydetails,"CNBstudy",i);
+}
+}
+function fileuploadfunc(ele,filetype,i){
+var fileName="";
+	 var file = ele.files[i];  
+            var parts = ele.value.split("\\");  
+             //fileName = parts[parts.length - 1]; 
+			 fileName=file.name;
+			//alert(fileName);
+			var nameoffile=fileName.split('.')[0];
+			var extension =fileName.split('.')[1];
+			fileName=nameoffile+"_"+RequestID+"."+extension;
+			
+            //Read File contents using file reader  
+            var reader = new FileReader();  
+			reader.onload = function(e)  
+            {  
+                uploadFile(e.target.result, fileName, filetype);  
+            }  
+            reader.onerror = function(e)  
+            {  
+                alert(e.target.error);  
+            }  
+            reader.readAsArrayBuffer(file, "UTF-8");  
+}
+  	   
+function uploadFile(arrayBuffer, fileName, filetype)  
+        {  
+            //Get Client Context,Web and List object.  
+        var clientContext = new SP.ClientContext();  
+            var oWeb = clientContext.get_web();  
+            var oList = oWeb.get_lists().getByTitle('BonusRequestAttachments'); 
+            //Convert the file contents into base64 data  
+            var bytes = new Uint8Array(arrayBuffer);  
+            var i, length, out = '';  
+            for (i = 0, length = bytes.length; i < length; i += 1)  
+            {  
+                out += String.fromCharCode(bytes[i]);  
+            }  
+            var base64 = btoa(out);  
+            //Create FileCreationInformation object using the read file data  
+            var createInfo = new SP.FileCreationInformation();  
+            createInfo.set_content(base64); 
+createInfo.set_overwrite(true)			
+            createInfo.set_url(fileName);
+           
+		   
+            //Add the file to the library  
+            var uploadedDocument = oList.get_rootFolder().get_files().add(createInfo)  ;
+			
+            //Load client context and execcute the batch  
+            clientContext.load(uploadedDocument);
+clientContext.executeQueryAsync(function (){onsuccesss(fileName,filetype)},onfailureee);		
+			// uploadedDocument.get_listItemAllFields["Typeofdocument"] = filetype;
+//uploadedDocument.ListItemAllFields.Update();
+//uploadedDocument.get_listItemAllFields["Typeofdocument"]=filetype;
+//uploadedDocument.Update();
+//clientContext.load(uploadedDocument);  
+            //clientContext.executeQueryAsync(function (){QuerySuccess(filetype,uploadedDocument);}, QueryFailure); 
+	
+		
+        }  
+  function onsuccesss(fileName,filetype){
+  
+   var queryUrl =  "http://hraes-uat/sites/eservices/_api/lists/GetByTitle('BonusRequestAttachments')/items?$select=LinkFilenameNoMenu,ID";
+	 var data;
+     
+   $.ajax  
+    ({  
+        url: queryUrl,  
+        type: "GET",  
+        data: data,  
+        headers:  
+        {  
+            "Accept": "application/json;odata=verbose",  
+            "Content-Type": "application/json;odata=verbose",  
+            "X-RequestDigest": $("#__REQUESTDIGEST").val(),  
+            "IF-MATCH": "*",  
+            "X-HTTP-Method": null  
+        },  
+        cache: false,  
+        success: function(data)   
+        {  
+            //alert("hiii");
+            for (var i = 0; i < data.d.results.length; i++)   
+            {  
+                var filefullname = data.d.results[i].LinkFilenameNoMenu;  
+               // var name=filefullname.split('.')[0];
+				if(fileName == filefullname)
+				{
+					var id=data.d.results[i].ID;
+					var metadata2=
+					{  
+            __metadata:  
+              {  
+                'type': 'SP.Data.BonusRequestAttachmentsItem'  
+            },  
+			
+            BonusRequestID:RequestID ,
+			Typeofdocument:filetype,
+        };
+					var queryUrl =  "http://hraes-uat/sites/eservices/_api/lists/GetByTitle('BonusRequestAttachments')/items("+id+")";
+	  $.ajax({
+                    url: queryUrl,
+                    type: "POST",
+                    contentType: "application/json;odata=verbose",
+                   data: JSON.stringify(metadata2),  
+                    headers: {
+                        "accept": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+						"content-Type": "application/json;odata=verbose",  
+						"IF-MATCH": "*",  
+						"X-HTTP-Method": "MERGE"
+						
+                    }, 
+					success: function (data) {
+                    //alert("success2");
+					//SP.SOD.executeFunc('sp.js', 'SP.ClientContext', createFile);
+                },
+                error: function (data) {
+                    alert("failed");
+                }
+                });
+				}
+            }  
+        },  
+        error: function(data)  
+        {  
+          
+        }  
+    }); 
+   window.location.replace("http://hraes-uat/sites/eservices/Pages/homepage.aspx");
+  }
+  function onfailureee(){alert('Unable to upload File')}
+     
+function validation(){
+	
+	if($("#Entitynameid").val()==""){
+		errorval+= "Entity Name; ";
+		validationflag=1;
+	}
+	if($("#coordinatornameid").val()==""){
+		errorval+= "Coordinator Name; ";
+		validationflag=1;
+	}
+	if($("#Jobnameid").val()==""){
+		errorval+= "Job Name; ";
+		validationflag=1;
+	}
+	if($("#contactnumberid").val()==""){
+		errorval+= "Contact Number; ";
+		validationflag=1;
+	}
+	if($("#emailid").val()==""){
+		errorval+= "Email; ";
+		validationflag=1;
+	}
+	if($("#reasontopayid").val()==""){
+		errorval+= "Reasons to pay Bonuses; ";
+		validationflag=1;
+	}
+	if($("#entityattachmentsforyearid").val()==""){
+		errorval+= "Entity Year; ";
+		validationflag=1;
+	}
+	if($("#achivementsid").val()==""){
+		errorval+= "Achivements; ";
+		validationflag=1;
+	}
+	if($("#noofempgettingbonussesid").val()==""){
+		errorval+= "Total Employees of Entity; ";
+		validationflag=1;
+	}
+	if($("#noofemplocpricontractid").val()==""){
+		errorval+= "Total number of locals with private contract; ";
+		validationflag=1;
+	}
+	if($("#noofemplocpercontractid").val()==""){
+		errorval+= "Total number of locals with permanent contract; ";
+		validationflag=1;
+	}
+	if($("#noofempnonlocpricontractid").val()==""){
+		errorval+= "Total number of non locals with private contract; ";
+		validationflag=1;
+	}
+	if($("#noofempnonlocpercontractid").val()==""){
+		errorval+= "Total number of non locals with permanent contract; ";
+		validationflag=1;
+	}
+	if($("#year1id").val()==""){
+		errorval+= "Percentage of Emiratisation first year; ";
+		validationflag=1;
+	}
+	if($("#year2id").val()==""){
+		errorval+= "Percentage of Emiratisation second year; ";
+		validationflag=1;
+	}
+	if($("#year1percentageid").val()==""){
+		errorval+= "Percentage of Emiratisation for first year; ";
+		validationflag=1;
+	}
+	if($("#year2percentageid").val()==""){
+		errorval+= "Percentage of Emiratisation for first year; ";
+		validationflag=1;
+	}
+	if($("#evaluationtotalid").val()==""){
+		errorval+= "Evaluation performance with details; ";
+		validationflag=1;
+	}
+	if($("#excellentidy").val()==""){
+		errorval+= "Total entity employees with Excellent grade; ";
+		validationflag=1;
+	}
+	if($("#verygoodidy").val()==""){
+		errorval+= "Total entity employees with Very Good grade; ";
+		validationflag=1;
+	}
+	if($("#goodidy").val()==""){
+		errorval+= "Total entity employees with Good grade; ";
+		validationflag=1;
+	}
+	if($("#acceptableidy").val()==""){
+		errorval+= "Total entity employees with Acceptable grade; ";
+		validationflag=1;
+	}
+	if($("#weakidy").val()==""){
+		errorval+= "Total entity employees with Weak grade; ";
+		validationflag=1;
+	}
+		
+}
+
+function updatedata(reqid){
+	
+	
+//	var itemType = Sp.Data.BonusRequestListListItem//GetItemTypeForListName(BonusRequestList);
+	//getting login user name
+	
+	Requestorjob=$("#Jobnameid").val();
+	EntityName=$("#Entitynameid").val();
+	coordinatorname=$("#coordinatornameid").val();
+	contactnumber=$("#contactnumberid").val();
+	budgetvalue=$("#budgetid").val();
+	if(budgetvalue==""){
+		budgetvalue=0;
+	}
+	resonstogivebonuses=$("#reasontopayid").val();
+	noofempgettingbonusses=parseInt($("#noofempgettingbonussesid").val());
+	noofemplocpricontract=parseInt($("#noofemplocpricontractid").val());
+	noofemplocpercontract=parseInt($("#noofemplocpercontractid").val());
+	noofempnonlocpricontract=parseInt($("#noofempnonlocpricontractid").val());
+	noofempnonlocpercontract=parseInt($("#noofempnonlocpercontractid").val());
+	if($("input[name='yesno']:checked").val()==undefined){
+		$("input[name='yesno']:checked").val("no")
+	}
+	if($("input[name='yesno2']:checked").val()==undefined){
+		$("input[name='yesno2']:checked").val("no")
+	}
+	budgetdocyesnoval=$("input[name='yesno']:checked").val();
+	PrivateContractyesnvalo=$("input[name='yesno2']:checked").val();
+	entityattachmentsforyearval= parseInt($("#entityattachmentsforyearid").val());
+	achivementsval =$("#achivementsid").val()
+	year1=parseInt($("#year1id").val());
+	year2=parseInt($("#year2id").val());
+	TotalIncome2ndYearval=parseInt($("#year1percentageid").val());
+	TotalIncomeIstYearval= parseInt($("#year2percentageid").val());
+	evaluationtotalval =parseInt($("#evaluationtotalid").val());
+	
+	 //percentageofemployeegood=parseInt($("#goodid").val());
+	 //percentageofemployeeexcellence=parseInt($("#excellentid").val());
+	 //percentageofemployeeacceptable=parseInt($("#acceptableid").val());
+	 //percentageofemployeeverygood=parseInt($("#verygoodid").val());
+	 //percentageofempweak=parseInt($("#weakid").val());
+	 percentageofemployeegoody=parseInt($("#goodyid").val());
+	 percentageofemployeeexcellencey=parseInt($("#excellentyid").val());
+	 percentageofemployeeacceptabley=parseInt($("#acceptableyid").val());
+	 percentageofemployeeverygoody=parseInt($("#verygoodyid").val());
+	 percentageofempweaky=parseInt($("#weakyid").val());
+	
+	
+	RequestIDwithlink="http://hraes-uat/sites/eservices/Pages/BonusRequestform.aspx"+"?"+RequestID;
+	emailid=$("#emailid").val();
+	var metadata =  
+            {  
+            __metadata:  
+              {  
+                'type': 'SP.Data.BonusRequestListListItem'  
+            },  
+			
+            Company: EntityName,  
+            JobTitle: Requestorjob,  
+            CoordinatorName: coordinatorname,
+			WorkPhone : contactnumber,
+			EMail :emailid,
+			RequestorName:Requestorname,
+			IssueDate: issueDate,
+			BudgetValue:budgetvalue,
+			ReasonsToGiveBonuses:resonstogivebonuses,
+			NoOfEmpGettingBonus:noofempgettingbonusses,
+			budgetdocyesno:budgetdocyesnoval,
+			PrivateContractyesno:PrivateContractyesnoval,
+			entityattachmentsforyear: entityattachmentsforyearval,
+			achivements:achivementsval,
+			NumberOfLocals:noofemplocpricontract,
+			NumberOfNonLocals:noofempnonlocpricontract,
+			Nooflocalswithpermanent: noofemplocpercontract,
+			Noofnonlocalswithpermanent:noofempnonlocpercontract,
+			Totalincomeyear1:year1,
+			Totalincomeyear2:year2,
+			TotalIncome2ndYear:TotalIncome2ndYearval,
+			TotalIncomeIstYear:TotalIncomeIstYearval,
+			evaluationtotal:evaluationtotalval,
+			PercentageOfEmployeeGood:percentageofemployeegood,
+			PercentageOfEmployeesExcellence:percentageofemployeeexcellence,
+			PercentageOfExmployeeAcceptable:percentageofemployeeacceptable,
+			PercentageOfExmployeeVeryGood:percentageofemployeeverygood,
+			PercentageOfExmployeeWeak:percentageofempweak,
+			PercentageOfEmployeeGoody:percentageofemployeegoody,
+			PercentageOfEmployeesExcellencey:percentageofemployeeexcellencey,
+			PercentageOfExmployeeAcceptabley:percentageofemployeeacceptabley,
+			PercentageOfExmployeeVeryGoody:percentageofemployeeverygoody,
+			PercentageOfExmployeeWeaky:percentageofempweaky,
+			//RequestID:RequestID,
+			Requestidwithlink: {Url: RequestIDwithlink, Description: RequestID},
+			//RequestStatus:RequestStatus,
+			//ApprovedRejectByAAUnit:Outcome,
+//ApprovedRejectByCBDept:Outcome,
+//ApprovedRejectByGMOffice:Outcome,
+//ApprovedRejectByPRDept:Outcome,
+CommentsByAAUnit:$("#aatnotesid").val(),
+CommentsByCBDept:$("#cnbnotesid").val(),
+CommentsByGMOffice:$("#gmnotesid").val(),
+CommentsByPRDept:$("#pnrnotesid").val(),
+ReviewCommentsbyPR	:$("#pnrnotesid2").val(),
+//ReviewedByPRDept:Outcome
+			
+        };
+		//Requestidwithlink:{
+                  //  '__metadata': { 'type': 'SP.FieldUrlValue' },
+                   // 'Description': RequestIDwithlink,
+                   // 'Url': RequestIDwithlink
+               // },
+	 var queryUrl =  "http://hraes-uat/sites/eservices/_api/lists/GetByTitle('BonusRequestList')/items("+idofitem+")";
+	  $.ajax({
+                    url: queryUrl,
+                    type: "POST",
+                    contentType: "application/json;odata=verbose",
+                   data: JSON.stringify(metadata),  
+                    headers: {
+                        "accept": "application/json;odata=verbose",  
+						"X-RequestDigest": $("#__REQUESTDIGEST").val(),						  
+						"X-HTTP-Method": "MERGE",
+						"IF-MATCH": "*",
+						
+                    }, 
+					success: function (data) {
+                    //alert("success");
+					//SP.SOD.executeFunc('sp.js', 'SP.ClientContext', createFile);
+                },
+                error: function (data) {
+                    alert("failed");
+                }
+                });
+            
+	
+}
+	
+
+
+
+
+
+
+</script>
+</head>
+<body>
+<div class="centercls">
+<!--<img src="http://hraes-uat/sites/eservices/Style%20Library/CSS/Apply%20Page%201%20-%20Copy.png" alt="" > -->
+</div>
+
+<div class="single-latest-item">
+<div class="single-latest-image">
+                                <a href="http://hraes-uat/sites/eservices/Pages/BonusRequestform.aspx"><img src="http://hraes-uat/sites/eservices/SiteAssets/DONOTDELETE/Img/Slider/service-4.png" alt=""></a>
+                            </div>
+ <div class="single-latest-text">
+                                <h3><a href="http://hraes-uat/sites/eservices/Pages/BonusRequestform.aspx" class="trn">Bonus Request Service</a></h3>                          
+                               
+                               
+                            </div>
+                            
+                           
+                        </div>
+<div id="scgform0" class="formdivcls">
+<table>
+<tr><td><p id="entityfilesid"></p></td><td><input type="file" id="Entitylogofileid" multiple="multiple"></td><td><p class="trn">Entity Logo</p></td>
+</tr>
+<tr><td></td><td><input type="text" id="Entitynameid"></td>
+<td><p class="trn">Entity Name</p></td></tr>
+<tr><td></td><td><input type="text" id="coordinatornameid"></td><td><p class="trn">Coordinator Name</p></td>
+</tr>
+<tr><td></td><td><input type="text" id="Jobnameid"></td><td><p class="trn">Job Name</p></td>
+</tr>
+<tr><td></td><td><input type="number" id="contactnumberid" pattern="[0-9]+"></td><td><p class="trn">Contact Number</p></td>
+</tr>
+<tr><td></td><td><input type="email" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$" id="emailid"></td><td><p class="trn">Email</p></td>
+</tr>
+<tr><td></td><td><button id="form0nextid" class="trn">Next</button></td>
+<td></td></tr>
+</table>
+
+</div>
+<div id="scgform1" class="formdivcls bigtableclsdiv">
+<table class="tablefloat">
+<tr><td></td><td><p id="Gradensalaryfilesid"></p></td><td><input type="file" id="Gradensalaryid" multiple="multiple"></td><td><p class="floatleftcls padr10 trn">Approved Grades and Salaries</p></td>
+</tr>
+</table>
+<table class="yesnotable">
+<tr><td><input type="radio" name="yesno" value="yes" class="radiocls"></input></td><td><p class="trn">Yes</p></td><td><input type="radio" name="yesno" value="no" class="radiocls"></input></td><td>
+<p class="trn">No</p></td><td>
+<div class="padtopcls20"><p class="leftcls trn">Do you have a budget for employee bonuses? Please indicate the value of the budget indicated in an official document</p>
+</div></td>
+</tr>
+
+
+<tr><td></td><td></td><td class="hiddenclas budgetdocdivcls" id="budgetdocdivid">
+
+<input type="file" id="budgetdocid" multiple="multiple">
+
+
+</td><td class="hiddenclas budgetdocdivcls"><input type="number" placeholder="الرجاء ادخال الميزانية" id="budgetid" min="0" step="1"><p id="budgetfilesid"></p></td><td></td>
+</tr>
+</table><table>
+<tr><td></td><td></td>
+<td>
+<textarea name="reasontopay" id="reasontopayid" class="textareacls">
+ 
+</textarea></td><td><p class="leftcls floatleftcls trn">Reasons to pay Bonuses</p></td></tr>
+<tr><td></td>
+<td>
+<textarea name="achivements" id="achivementsid" class="textareacls" placeholder="أدخل السنة" >
+ 
+</textarea></td><td>
+<input type="number" min="0" step="1"  id="entityattachmentsforyearid" placeholder="أدخل السنة"></td><td>
+<p class="leftcls trn">Entity Achivements for Year</p></td></tr>
+
+<tr><td></td>
+<td><p id="balancefilesid"></p></td><td><input type="file" id="balancescorecardid" multiple="multiple">
+</td><td>
+<p class="trn">Balanced Score Card</p></td></tr>
+<tr><td></td><td><p id="financefilesid"></p></td>
+<td>
+<input type="file" id="financialstatementid" multiple="multiple">
+</td><td>
+<p class="trn">Financial Statement</p></td></tr>
+<tr><td></td>
+<td><p id="taxfilesid"></p></td>
+<td>
+
+<input type="file" id="taxsummaryid" multiple="multiple">
+
+</td><td>
+<p class="trn">Tax Summary</p></td></tr>
+<tr><td></td><td><button id="form1previd" class="trn">Previous</button></td><td>
+<button id="form1nextid" class="trn">Next</button></td></tr></table>
+
+</div>
+
+<div id="scgform2" class="formdivcls">
+<table class="scgform2tbl tablefloat"><tr><td></td><td><input type="number" placeholder="العدد الكلي لموظفي الجهة المطلوب صرف مكافآت لهم" class="bigboxcls trn" id="noofempgettingbonussesid" min="0" step="1"></td><td><p class="floatleftcls trn">Total Employees of Entity</p></td></tr>
+<tr><td></td><td><input type="number" placeholder="عدد الموظفين المواطنين ذوو العقود الخاصة" class="bigboxcls" id="noofemplocpricontractid" min="0" step="1"></td><td></td></tr>
+<tr><td></td><td><input type="number" placeholder="عدد الموظفين المواطنين ذوو العقود الدائمة" class="bigboxcls" id="noofemplocpercontractid" min="0" step="1"></td><td></td></tr>
+<tr><td></td><td><input type="number" placeholder="عدد الموظفين غير المواطنين ذوو العقود الخاصة" class="bigboxcls" id="noofempnonlocpricontractid" min="0" step="1"></td><td></td></tr>
+<tr><td></td><td><input type="number" placeholder="عدد الموظفين غير المواطنين ذوو العقود الدائمة" class="bigboxcls" id="noofempnonlocpercontractid" min="0" step="1"></td><td></td></tr>
+<tr><td></td><td class="spltd"></td><td></td></tr>
+<tr><td><input type="number" placeholder="أدخل النسبة" id="year1percentageid" min="0" step="any"></td>
+<td><input type="number" placeholder="ادخل السنة" id="year1id" min="0" step="1"></td><td><p class="floatleftcls trn">Percentage of Emiratisation</p></td></tr>
+<tr><td><input type="number" placeholder="أدخل النسبة" id="year2percentageid" min="0" step="any"></td>
+<td><input type="number" placeholder="ادخل السنة" id="year2id" min="0" step="1"></td><td class="emtd"><em class="trn">Please enter last two consecutive years with their percentages like 2017-2018</em></td></tr>
+
+<tr><td>
+<button id="form2previd" class="trn">Previous</button></td><td><button id="form2nextid" class="trn">Next</button></td><td></td></tr></table>
+
+</div>
+<div id="scgform3" class="formdivcls">
+<table class="scgform3tbl"><tr><td><p id="evaluationfilesid"></p></td><td><input type="file" id="resultsofevaluationid" multiple="multiple"></td><td>
+<p class="shortparacls trn">Results of evaluation for general performance for all entity employees (including the employees who request annual bonus for them)<br>Must be approved from President of Entity</p>
+</td></tr>
+<tr><td><p id="contractfilesid" class="trn"></p></td><td><input type="radio" name="yesno2" class="radiocls2" value="yes"></input><p class="trn" >Yes</p><br>
+<input type="radio" name="yesno2" class="radiocls2" value="no"><p class="trn">No</p></input>
+<input type="file" id="allcontractsid" class="hiddenclas" multiple="multiple">
+</td><td>
+<p class="shortparacls trn">For Private contracts employee which request annual bonus for them. Do their Contracts have fixed bonus? and if present please upload copy of all the contracts for all employees which request annual bonuses for them</p>
+</td>
+</tr><td></td>
+<td><button id="form3previd" class="trn">Previous</button></td>
+<td>
+<button id="form3nextid" class="trn">Next</button></td>
+</tr></table>
+
+</div>
+<div id="scgform4" class="formdivcls">
+<table><tr><td></td><td></td>
+<td><textarea placeholder="أدخل المعادلةالمستخدمة" id="evaluationtotalid"  class="textareacls"></textarea></td><td><p class="floatleftcls trn">Explain the equation to evaluate the performance with details</p>
+</td>
+</tr>
+<tr><td></td><td></td>
+<td><input type="number"  min="0" step="1" placeholder="أدخل العدد الكلي لموظفي الجهة" id="TotalNumberofEmpid"></td><td><p class="floatleftcls trn" >Total number of Employees</p>
+</td>
+</tr>
+<tr><td><input type="number" placeholder="Enter total entity employees (x)" id="excellentid" class="hiddencls" min="0" step="1"><input type="number"  id="excellentidz"  class="percentagecls" readonly></td>
+<td><p class="floatleftcls trn">Percentage of Employee which they got Excellentgrade of total entity Employees</p>
+</td>
+<td><input type="number" min="0" step="1" placeholder="أدخل عدد الموظفين الحاصلين على تقدير ممتاز من إجمالي موظفي الجهة" id="excellentyid"></td>
+<td><p class="floatleftcls trn">No of Employees with Excellent grade</p></td>
+</tr>
+<tr><td><input type="number" placeholder="Enter total entity employees (x)" id="verygoodid" class="hiddencls" min="0" step="1"><input type="number"  id="verygoodidz" class="percentagecls" readonly></td>
+
+<td><p class="floatleftcls trn">Percentage of Employee which they got Very Good grade of total entity Employees</p>
+</td><td><input type="number" min="0" step="1" placeholder="أدخل عدد الموظفين الحاصلين على تقديرجيد جدا من إجمالي موظفي الجهة" id="verygoodyid"></td>
+<td><p class="floatleftcls trn">No of Employees with Very Good grade</p></td>
+</tr>
+<tr><td><input type="number" placeholder="Enter total entity employees (x)" id="goodid" class="hiddencls" min="0" step="1"><input type="number"  id="goodidz"  class="percentagecls"readonly></td>
+
+<td><p class="floatleftcls trn">Percentage of Employee which they got Good grade of total entity Employees</p>
+</td>
+<td><input type="number" min="0" step="1" placeholder="أدخل عدد الموظفين الحاصلين على درجة جيد" id="goodyid"></td>
+<td><p class="floatleftcls trn">No of Employees with Good grade</p></td>
+</tr>
+<tr><td><input type="number" placeholder="Enter total entity employees (x) " id="acceptableid" class="hiddencls" min="0" step="1"><input type="number"  id="acceptableidz"  class="percentagecls"readonly></td>
+
+<td><p class="floatleftcls trn">Percentage of Employee which they got Acceptable grade of total entity Employees</p>
+</td>
+<td><input type="number" min="0" step="1" placeholder="أدخل عدد الموظفين الحاصلين على درجة مقبول" id="acceptableyid"></td>
+<td><p class="floatleftcls trn">No of Employees with Acceptable grade</p></td>
+</tr>
+<tr>
+<td><input type="number" placeholder="Enter total entity employees (x)" id="weakid" class="hiddencls" min="0" step="1"><input type="number"  id="weakidz" class="percentagecls" readonly></td>
+
+<td><p class="floatleftcls trn">Percentage of Employee which they got Weak grade of total entity Employees</p>
+</td><td><input type="number" min="0" step="1" placeholder="أدخل عدد الموظفين الحاصلين على تقدير ضعيف" id="weakyid"></td>
+<td><p class="floatleftcls trn">No of Employees with Weak grade</p></td>
+</tr>
+<tr><td></td><td><button id="form4previd" class="trn">Previous</button></td><td>
+<button id="form4nextid" class="trn">Next</button></td></tr></table>
+
+</div>
+
+<div id="scgform5" class="formdivcls">
+<table>
+<tr><td><a href="http://hraes-uat/sites/eservices/Style%20Library/CSS/%D9%86%D9%85%D9%88%D8%B0%D8%AC%20%D9%83%D8%B4%D9%81%20%D8%A7%D9%84%D9%85%D9%88%D8%B8%D9%81%D9%8A%D9%86.xlsx">Employee Details</a></td>
+<td><p class="floatleftcls trn spclpcls">Please download and fill the excel and reupload it</p>
+</td>
+
+</tr>
+<tr>
+<td><p id="employeefilesid"></p></td><td><input type="file" id="Employeedetailsid" multiple="multiple"></td></tr><tr><td>
+<button id="form5previd" class="trn">Previous</button></td><td><button id="form5nextid" class="trn">Next</button></td></tr></table>
+
+</div>
+<div id="scgform6" class="formdivcls">
+<table>
+<tr><td></td><td><p id="entityfilesidreadonly"></p></td><td><p class="trn">Entity Logo</p></td>
+</tr>
+<tr><td></td><td><input type="text" id="Entitynamereadonlyid" readonly></td><td><p class="trn">Entity Name</p></td>
+</tr>
+<tr><td></td><td><input type="text" id="coordinatornameidreadonly" readonly></td><td><p class="trn">Coordinator Name</p></td>
+</tr>
+<tr><td></td><td><input type="text" id="Jobnameidreadonly"></td><td><p class="trn">Job Name</p></td>
+</tr>
+<tr><td></td><td><input type="text" id="contactnumberidreadonly" readonly></td><td><p class="trn">Contact Number</p></td>
+</tr>
+<tr><td></td><td><input type="text" id="emailidreadonly" readonly></td><td><p class="trn">Email</p></td>
+</tr>
+<tr><td></td><td><p id="gradeandsalaryfilesreadonly"></p></td><td><p class="floatleftcls padr10 trn">Approved Grades and Salaries</p></td>
+</tr>
+<tr class="hiddencls"><td></td><td><p id="budgetfilesreadonly"></p></td><td><input type="number" placeholder="" id="budgetidreadonly" readonly></td></tr>
+<tr><td></td>
+<td>
+<textarea name="reasontopay" id="reasontopayidreadonly" class="textareacls" readonly>
+ 
+</textarea></td><td><p class="leftcls floatleftcls trn">Reasons to pay Bonuses</p></td></tr>
+<tr><td>
+<textarea name="achivements"  class="textareacls" id="achivementsidreadonly" readonly>
+ 
+</textarea></td>
+<td>
+<input type="number" id="entityattachmentsforyearidreadonly" readonly></td><td>
+<p class="leftcls trn">Entity Achivements for Year</p></td></tr>
+
+<tr><td></td>
+<td><p id="balancefilesreadonly"></p>
+</td><td>
+<p class="trn">Balanced Score Card</p></td></tr>
+<tr><td></td>
+<td>
+<p id="financialfilesreadonly"></p>
+</td><td>
+<p class="trn">Financial Statement</p></td></tr>
+<tr><td></td>
+<td>
+
+<p id="taxsummaryfilesreadonly"></p>
+
+</td><td>
+<p class="trn">Tax Summary</p></td></tr>
+
+
+<tr><td></td><td><input type="number"  class="bigboxcls" id="noofempgettingbonussesidreadonly" readonly></td><td><p class="floatleftcls trn">Total Employees of Entity</p></td></tr>
+<tr><td></td><td><input type="number"  class="bigboxcls" id="noofemplocpricontractidreadonly" readonly></td><td><p class="trn">Total number of locals with private contract</p></td></tr>
+<tr><td></td><td><input type="number"  class="bigboxcls" id="noofemplocpercontractidreadonly" readonly></td><td><p class="trn">Total number of locals with permanent contract</p></td></tr>
+<tr><td></td><td><input type="number"  class="bigboxcls" id="noofempnonlocpricontractidreadonly" readonly></td><td><p class="trn">Total number of non locals with private contract</p></td></tr>
+<tr><td></td><td><input type="number"  class="bigboxcls" id="noofempnonlocpercontractidreadonly" readonly></td><td><p class="trn">Total number of non locals with permanent contract</p></td></tr>
+
+<tr>
+<td><input type="number"  id="year1percentageidreadonly"></td><td><input type="number"  id="year1idreadonly" readonly class="floatleftcls"></td><td><p class="trn">Percentage of Emiratisation year 1</p></td></tr>
+<tr>
+<td><input type="number"  id="year2percentageidreadonly" readonly></td><td><input type="number"  id="year2idreadonly" readonly class="floatleftcls"></td><td><p class="trn">Percentage of Emiratisation year 2</p></td></tr>
+<tr><td></td><td><p id="evaluationfilesreadonly"></p></td><td class="emtd">
+<p class="shortparacls trn">Results of evaluation for general performance for all entity employees (including the employees who request annual bonus for them)<br>Must be approved from President of Entity</p>
+</td></tr>
+
+<tr class="hiddencls"><td></td><td><p class="trn">Yes<input type="radio" name="yesno2" class="radiocls2" value="yes"></input></p><br>
+<p class="trn">No<input type="radio" name="yesno2" class="radiocls2" value="no"></input></p>
+<p id="allcontractfilesreadonly"></p>
+</td><td class="emtd">
+<p class="shortparacls trn">For Private contracts employeewhich request annual bonus for them. Do their Contracts have fixed bonus? and if present please upload copy of all the contracts for all employees which request annual bonuses for them </p>
+</td>
+</tr>
+
+<tr><td></td>
+<td class="emtd"><textarea  id="evaluationtotalidreadonly"  class="textareacls" readonly></textarea></td><td><p class="floatleftcls trn">Equation to evaluate the performance with details</p>
+</td>
+</tr>
+<tr><td><input type="number" placeholder="Enter total entity employees (x)" id="excellentidreadonly" class="bigboxcls hiddencls" readonly></td><td><input type="number"  id="excellentyidreadonly" class="bigboxcls" readonly></td><td><p class="floatleftcls trn">Percentage of Employee which they got Excellentgrade of total entity Employees</p>
+</td>
+
+</tr>
+<tr><td><input type="number" placeholder="Enter total entity employees (x)" id="verygoodidreadonly" class="bigboxcls hiddencls" readonly></td><td><input type="number"  id="verygoodyidreadonly" class="bigboxcls" readonly></td><td><p class="floatleftcls trn">Percentage of Employee which they got Very Good grade of total entity Employees</p>
+</td>
+
+</tr>
+<tr><td><input type="number" placeholder="Enter total entity employees (x)" id="goodidreadonly" class="bigboxcls hiddencls" readonly></td><td><input type="number"  id="goodyidreadonly" class="bigboxcls" readonly></td><td><p class="floatleftcls trn">Percentage of Employee which they got Good grade of total entity Employees</p>
+</td>
+
+</tr>
+<tr><td><input type="number" placeholder="Enter total entity employees (x) " id="acceptableidreadonly" class="bigboxcls hiddencls" readonly></td><td><input type="number"  id="acceptableyidreadonly" class="bigboxcls" readonly></td><td><p class="floatleftcls trn">Percentage of Employee which they got Acceptable grade of total entity Employees</p>
+</td>
+
+</tr>
+<tr><td><input type="number" placeholder="Enter total entity employees (x)" id="weakidreadonly" class="bigboxcls hiddencls" readonly></td><td><input type="number"  id="weakyidreadonly" class="bigboxcls" readonly></td><td><p class="floatleftcls trn">Percentage of Employee which they got Weak grade of total entity Employees</p>
+</td>
+
+</tr>
+<tr id="gmtrid" ><td></td><td><textarea class="textareacls" id="gmnotesid"></textarea></td><td><p class="trn" id="gmnotesidp">Add Notes</p></td> </tr>
+<tr id="pnrtrid" ><td></td><td><textarea class="textareacls" id="pnrnotesid"></textarea></td><td><p class="trn" id="pnrnotesidp">Add Notes</p></td> </tr>
+<tr id ="cnbtrid" ><td></td><td><textarea class="textareacls" id="cnbnotesid"></textarea></td><td><p class="trn" id="cnbnotesidp">Add Notes</p></td> </tr>
+<tr id ="cnbtrid2" ><td><p id="studyfileslinksid"></p></td><td><input type="file" id="stydyfileid"></td><td><p class="trn" id="stydyfileidp">Add Study</p></td> </tr>
+<tr id="pnrtrid2"><td></td><td><textarea class="textareacls" id="pnrnotesid2"></textarea></td><td><p class="trn" id="pnrnotesid2p">Add Notes</p></td> </tr>
+<tr id="aatrid"><td></td><td><textarea class="textareacls" id="aatnotesid"></textarea></td><td><p class="trn" id="aatnotesidp">Add Notes</p></td> </tr>
+<tr><td><button id="confirmid" class="trn">Confirm</button>
+<button id="GMReview" class="trn">Reviewed</button>
+<button id="PNRAPPROVEID" class="trn">Approve</button>
+<button id="PNRrejectid" class="trn">Reject</button>
+<button id="CNBAPPROVEID" class="trn">Approve</button>
+<button id="CNGrejectid" class="trn">Reject</button>
+<button id="PNRReview" class="trn">Reviewed</button>
+<button id="aatReview" class="trn">Reviewed</button>
+</td><td><button id="form6previd" class="trn">Previous</button></td></tr>
+</table>
+<p id="errorid" class="errormsgcls"></p>
+</div>
+</body>
+
+</html>
